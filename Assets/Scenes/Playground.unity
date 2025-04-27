@@ -241,7 +241,7 @@ MonoBehaviour:
   disconnectInactiveConnections: 0
   disconnectInactiveTimeout: 60
   authenticator: {fileID: 0}
-  playerPrefab: {fileID: 6407973570631041558, guid: 0caed934e6d1f1641825a7fc25fb6521,
+  playerPrefab: {fileID: 8590722294643693138, guid: 0caed934e6d1f1641825a7fc25fb6521,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
@@ -375,7 +375,7 @@ Canvas:
   m_OverrideSorting: 0
   m_OverridePixelPerfect: 0
   m_SortingBucketNormalizedSize: 0
-  m_VertexColorAlwaysGammaSpace: 0
+  m_VertexColorAlwaysGammaSpace: 1
   m_AdditionalShaderChannelsFlag: 0
   m_UpdateRectTransformForStandalone: 0
   m_SortingLayerID: 0
@@ -3446,9 +3446,9 @@ RectTransform:
   - {fileID: 2045266801440306147}
   m_Father: {fileID: 650894779}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -828.53845, y: 505.1}
+  m_AnchorMin: {x: 0, y: 1}
+  m_AnchorMax: {x: 0, y: 1}
+  m_AnchoredPosition: {x: 131.46155, y: -34.899994}
   m_SizeDelta: {x: 243.9231, y: 52}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &7413985077228693283
