@@ -291,8 +291,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4517778973581634670}
+  - component: {fileID: 3349409759004714114}
   m_Layer: 6
-  m_Name: FloatingInfo
+  m_Name: RotationNickname
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,6 +315,18 @@ Transform:
   - {fileID: 3954018786281163018}
   m_Father: {fileID: 2958054972740513293}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3349409759004714114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1048270084373066212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: be5f72a9ff844624dbf8be69007c7629, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1084183216399317998
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,6 +695,7 @@ GameObject:
   - component: {fileID: 3954018786281163018}
   - component: {fileID: 4964243746897745145}
   - component: {fileID: 1558261637435695059}
+  - component: {fileID: 1929582526834025782}
   m_Layer: 6
   m_Name: PlayerNameText
   m_TagString: Untagged
@@ -843,6 +857,20 @@ MonoBehaviour:
   m_hasFontAssetChanged: 0
   m_renderer: {fileID: 4964243746897745145}
   m_maskType: 0
+--- !u!114 &1929582526834025782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2435406423346183793}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: afd6c296afa4faf4d8bbccbc03f642b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 1558261637435695059}
+  _textUi: {fileID: 0}
 --- !u!1 &2473004308661841819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2511,11 +2539,10 @@ MonoBehaviour:
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  PlayerNameText: {fileID: 1558261637435695059}
-  FloatingInfo: {fileID: 1048270084373066212}
-  PlayerNamePrefab: {fileID: 8322883578719245843, guid: e4983457092458541a9800dc29d0ab34,
-    type: 3}
-  PlayerName: 
+  _view: {fileID: 1929582526834025782}
+  _rotationName: {fileID: 3349409759004714114}
+  _prefab: {fileID: 0}
+  _name: 
 --- !u!95 &1001126667836301888
 Animator:
   serializedVersion: 5
