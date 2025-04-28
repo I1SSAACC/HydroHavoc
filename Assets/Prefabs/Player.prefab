@@ -4747,6 +4747,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b3b47dc9d982bdd46829cea3812f2fff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -4763,6 +4764,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 33f02a32d74803b4a9d6938fa4e321fa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
@@ -5026,10 +5028,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
   target: {fileID: 2958054972740513293}
+  updateMethod: 0
   syncPosition: 1
   syncRotation: 1
   syncScale: 1
@@ -5044,7 +5048,6 @@ MonoBehaviour:
   showOverlay: 0
   overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
   bufferResetMultiplier: 3
-  useFixedUpdate: 0
   positionSensitivity: 0.01
   rotationSensitivity: 0.01
   scaleSensitivity: 0.01
@@ -5060,10 +5063,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f6f3bf89aa97405989c802ba270f815, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
   syncDirection: 1
   syncMode: 0
   syncInterval: 0
-  clientAuthority: 1
+  clientAuthority: 0
   animator: {fileID: 1001126667836301888}
 --- !u!136 &2896291960949111515
 CapsuleCollider:
