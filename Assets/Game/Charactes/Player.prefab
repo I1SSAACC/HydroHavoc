@@ -4781,7 +4781,7 @@ Animator:
   m_GameObject: {fileID: 8590722294643693138}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 405edc1a5f122a94a993b64f2f411a83, type: 3}
-  m_Controller: {fileID: 9100000, guid: 30baccca080955246bf6013882a333f0, type: 2}
+  m_Controller: {fileID: 9100000, guid: 40db3173a05ae3242b1c182a09b0a183, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -4834,6 +4834,9 @@ MonoBehaviour:
   SprintSpeed: 5.335
   RotationSmoothTime: 0.12
   SpeedChangeRate: 10
+  LandingAudioClip: {fileID: 0}
+  FootstepAudioClips: []
+  FootstepAudioVolume: 0.5
   JumpHeight: 1.2
   Gravity: -15
   JumpTimeout: 0.3
