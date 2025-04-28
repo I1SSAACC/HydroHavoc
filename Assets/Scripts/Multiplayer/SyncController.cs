@@ -9,7 +9,7 @@ namespace StarterAssets
 {
 	public class SyncController : NetworkBehaviour
 	{
-		public Transform target;
+		public Transform Target;
 
 		void Start()
 		{
@@ -27,7 +27,7 @@ namespace StarterAssets
 				GameObject PlayerFollowCamera = GameObject.Find("PlayerFollowCamera");
 
 				CinemachineVirtualCamera CinemachineVirtualCamera = PlayerFollowCamera.GetComponent<CinemachineVirtualCamera>();
-				CinemachineVirtualCamera.Follow = target;
+				CinemachineVirtualCamera.Follow = Target;
 			}
 		}
 	}

@@ -261,8 +261,6 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
-  objectToEnable: {fileID: 0}
-  objectToDisable: {fileID: 0}
 --- !u!1 &650894778
 GameObject:
   m_ObjectHideFlags: 0
@@ -3460,6 +3458,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7643466162345490841}
+  - component: {fileID: 7643466162345490843}
   - component: {fileID: 7061606535226583670}
   - component: {fileID: 7000291957344580615}
   - component: {fileID: 7643466162345490842}
@@ -3543,11 +3542,24 @@ MeshCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 5
   m_Convex: 0
   m_CookingOptions: 30
   m_Mesh: {fileID: 1430891075563205910, guid: d31949561c16faa448ebd79579510eb8, type: 3}
+--- !u!114 &7643466162345490843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7413985077228693283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6daad368ad1511e49a62197918e031f8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0.1
 --- !u!222 &8005790499617533885
 CanvasRenderer:
   m_ObjectHideFlags: 0
