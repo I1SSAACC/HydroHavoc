@@ -1,5 +1,4 @@
-﻿using StarterAssets;
-using UnityEngine;
+﻿using UnityEngine;
 #if ENABLE_INPUT_SYSTEM 
 using UnityEngine.InputSystem;
 #endif
@@ -12,13 +11,6 @@ namespace StarterAssets
 #endif
     public class ThirdPersonController : MonoBehaviour
     {
-        private const string Speed = nameof(Speed);
-        private const string Grounded = nameof(Grounded);
-        private const string Jump = nameof(Jump);
-        private const string FreeFall = nameof(FreeFall);
-        private const string MotionSpeed = nameof(MotionSpeed);
-
-
         [Header("Player")]
         [SerializeField] private float _moveSpeed = 2.0f;
         [SerializeField] private float _rotationSpeed = 1.0f;
@@ -51,37 +43,25 @@ namespace StarterAssets
         [SerializeField] private bool _lockCameraPosition = false;
 
         private Mover _mover;
+        private AnimatorWrapper _animatorWrapper;
 
         private float _cinemachineTargetYaw;
         private float _cinemachineTargetPitch;
 
-        private float _speedMovement;
         private float _animationBlend;
-        private float _targetRotation = 0.0f;
-        private float _rotationVelocity;
         private float _verticalVelocity;
         private float _terminalVelocity = 53.0f;
 
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
 
-        private int _animIDSpeed;
-        private int _animIDGrounded;
-        private int _animIDJump;
-        private int _animIDFreeFall;
-        private int _animIDMotionSpeed;
-
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
         private PlayerInput _playerInput;
-#endif
-        private Animator _animator;
+#endif        
         private CharacterController _controller;
         private StarterAssetsInputs _input;
-        private Transform _mainCamera;
 
         private const float _threshold = 0.01f;
-
-        private bool _hasAnimator;
 
         private bool IsCurrentDeviceMouse
         {
@@ -97,33 +77,27 @@ namespace StarterAssets
 
         private void Awake()
         {
-            _hasAnimator = TryGetComponent(out _animator);
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 
             _mover = new(_input, _controller, _moveSpeed, _sprintSpeed);
-            _mainCamera = Camera.main.transform;
+            _animatorWrapper = new(transform);
         }
 
         private void Start()
         {
-            _cinemachineTargetYaw = _cameraTarget.transform.rotation.eulerAngles.y;            
+            _cinemachineTargetYaw = _cameraTarget.transform.rotation.eulerAngles.y;
 
-#if ENABLE_INPUT_SYSTEM 
+#if ENABLE_INPUT_SYSTEM
             _playerInput = GetComponent<PlayerInput>();
 #else
 			Debug.LogError( "Пакет Starter Assets не имеет зависимостей. Используйте Tools/Starter Assets/Reinstall Dependencies, чтобы исправить это");
 #endif
-
-            AssignAnimationIDs();
             ResetTimeoutOnStart();
         }
 
         private void Update()
         {
-            if (_animator == null)
-                _hasAnimator = TryGetComponent(out _animator);
-
             JumpAndGravity();
             CheckGrounded();
             Move();
@@ -138,26 +112,16 @@ namespace StarterAssets
             _fallTimeoutDelta = _fallTimeout;
         }
 
-        private void AssignAnimationIDs()
-        {
-            _animIDSpeed = Animator.StringToHash(Speed);
-            _animIDGrounded = Animator.StringToHash(Grounded);
-            _animIDJump = Animator.StringToHash(Jump);
-            _animIDFreeFall = Animator.StringToHash(FreeFall);
-            _animIDMotionSpeed = Animator.StringToHash(MotionSpeed);
-        }
-
         private void CheckGrounded()
         {
-            Vector3 spherePosition = new Vector3(
+            Vector3 spherePosition = new(
                 transform.position.x,
                 transform.position.y - _groundedOffset,
                 transform.position.z);
 
             _isGrounded = Physics.CheckSphere(spherePosition, _groundedRadius, _groundLayers, QueryTriggerInteraction.Ignore);
 
-            if (_hasAnimator)
-                _animator.SetBool(_animIDGrounded, _isGrounded);
+            _animatorWrapper.SetGrounded(_isGrounded);
         }
 
         private void CameraRotation()
@@ -180,46 +144,14 @@ namespace StarterAssets
 
         private void Move()
         {
-            //float targetSpeed = _input.IsSprint ? _moveSpeed : _sprintSpeed;
-
-            //if (_input.move == Vector2.zero)
-            //    targetSpeed = 0.0f;
-
-            //float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-            //float speedOffset = 0.1f;
-            //float inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-            //if (currentHorizontalSpeed < targetSpeed - speedOffset ||
-            //    currentHorizontalSpeed > targetSpeed + speedOffset)
-            //{
-            //    _speedMovement = Mathf.Lerp(currentHorizontalSpeed, targetSpeed * inputMagnitude, Time.deltaTime * _speedChangeRate);
-            //    _speedMovement = Utils.RoundThreeDecimalPlaces(_speedMovement);
-            //}
-            //else
-            //{
-            //    _speedMovement = targetSpeed;
-            //}
-
-            //Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-            //_targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _mainCamera.transform.eulerAngles.y;
-            //float rotation = Mathf.SmoothDampAngle(transform.eulerAngles.y, _targetRotation, ref _rotationVelocity, _rotationSmoothTime);
-            //transform.rotation = Quaternion.Euler(0.0f, rotation, 0.0f);
-
-            //Vector3 targetDirection = Quaternion.Euler(0.0f, _targetRotation, 0.0f) * Vector3.forward;
-
-            //_controller.Move(targetDirection.normalized * (_speedMovement * Time.deltaTime) + new Vector3(0.0f, _verticalVelocity, 0.0f) * Time.deltaTime);
-            _mover.Move(_input.move, _verticalVelocity);
+            _mover.Move(_verticalVelocity);
             _animationBlend = Mathf.Lerp(_animationBlend, _mover.TargetSpeed, Time.deltaTime * _speedChangeRate);
 
             if (_animationBlend < 0.01f)
                 _animationBlend = 0f;
 
-            if (_hasAnimator)
-            {
-                _animator.SetFloat(_animIDSpeed, _animationBlend);
-                _animator.SetFloat(_animIDMotionSpeed, _mover.InputMagnitude);
-            }
+            _animatorWrapper.SetSpeed(_animationBlend);
+            _animatorWrapper.SetMotionSpeed(_mover.InputMagnitude);
         }
 
         private void JumpAndGravity()
@@ -228,11 +160,8 @@ namespace StarterAssets
             {
                 _fallTimeoutDelta = _fallTimeout;
 
-                if (_hasAnimator)
-                {
-                    _animator.SetBool(_animIDJump, false);
-                    _animator.SetBool(_animIDFreeFall, false);
-                }
+                _animatorWrapper.DisableJump();
+                _animatorWrapper.DisableFreeFall();
 
                 if (_verticalVelocity < 0.0f)
                     _verticalVelocity = -2f;
@@ -241,8 +170,7 @@ namespace StarterAssets
                 {
                     _verticalVelocity = Mathf.Sqrt(_jumpHeight * -2f * _gravity);
 
-                    if (_hasAnimator)
-                        _animator.SetBool(_animIDJump, true);
+                    _animatorWrapper.EnableJump();
                 }
 
                 if (_jumpTimeoutDelta >= 0.0f)
@@ -255,10 +183,7 @@ namespace StarterAssets
                 if (_fallTimeoutDelta >= 0.0f)
                     _fallTimeoutDelta -= Time.deltaTime;
                 else
-                {
-                    if (_hasAnimator)
-                        _animator.SetBool(_animIDFreeFall, true);
-                }
+                    _animatorWrapper.EnableFreeFall();
 
                 _input.jump = false;
             }
@@ -286,8 +211,8 @@ namespace StarterAssets
             if (_footstepAudioClips.Length <= 0)
                 return;
 
-                var index = Random.Range(0, _footstepAudioClips.Length);
-                AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.center), _footstepAudioVolume);
+            var index = Random.Range(0, _footstepAudioClips.Length);
+            AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.center), _footstepAudioVolume);
         }
 
         private void OnLand(AnimationEvent animationEvent)
@@ -298,73 +223,11 @@ namespace StarterAssets
 
         private void OnDrawGizmosSelected()
         {
-            Color transparentGreen = new Color(0.0f, 1.0f, 0.0f, 0.35f);
-            Color transparentRed = new Color(1.0f, 0.0f, 0.0f, 0.35f);
+            Color transparentGreen = new(0.0f, 1.0f, 0.0f, 0.35f);
+            Color transparentRed = new(1.0f, 0.0f, 0.0f, 0.35f);
 
             Gizmos.color = _isGrounded ? transparentGreen : transparentRed;
-            Gizmos.DrawSphere(new Vector3(transform.position.x, transform.position.y - _groundedOffset, transform.position.z), _groundedRadius);
+            Gizmos.DrawSphere(new(transform.position.x, transform.position.y - _groundedOffset, transform.position.z), _groundedRadius);
         }
-    }
-}
-
-public class Mover
-{
-    private const float SpeedChangeRate = 10.0f;
-
-    private readonly CharacterController _controller;
-    private readonly StarterAssetsInputs _input;
-    private readonly float _moveSpeed;
-    private readonly float _sprintSpeed;
-    private readonly Transform _camera;
-
-    private float _targetSpeed;
-    private float _inputMagnitude;
-
-    public Mover(StarterAssetsInputs input, CharacterController controller, float moveSpeed, float sprintSpeed)
-    {
-        _input = input;
-        _controller = controller;
-        _moveSpeed = moveSpeed;
-        _sprintSpeed = sprintSpeed;
-        _camera = Camera.main.transform;
-    }
-
-    public float TargetSpeed => _targetSpeed;
-
-    public float InputMagnitude => _inputMagnitude;
-
-    public void Move(Vector2 direction, float verticalVelocity)
-    {
-        _targetSpeed = _input.IsSprint ? _moveSpeed : _sprintSpeed;
-
-        if (_input.move == Vector2.zero)
-            _targetSpeed = 0.0f;
-
-        float currentHorizontalSpeed = new Vector3(_controller.velocity.x, 0.0f, _controller.velocity.z).magnitude;
-        float speedOffset = 0.1f;
-        _inputMagnitude = _input.analogMovement ? _input.move.magnitude : 1f;
-
-        float speedMovement;
-
-        if (currentHorizontalSpeed < _targetSpeed - speedOffset ||
-            currentHorizontalSpeed > _targetSpeed + speedOffset)
-        {
-            speedMovement = Mathf.Lerp(currentHorizontalSpeed, _targetSpeed * _inputMagnitude, Time.deltaTime * SpeedChangeRate);
-            speedMovement = Utils.RoundThreeDecimalPlaces(speedMovement);
-        }
-        else
-        {
-            speedMovement = _targetSpeed;
-        }
-
-        Vector3 inputDirection = new Vector3(_input.move.x, 0.0f, _input.move.y).normalized;
-
-        float targetRotation = Mathf.Atan2(inputDirection.x, inputDirection.z) * Mathf.Rad2Deg + _camera.eulerAngles.y;
-        //float rotation = Mathf.SmoothDampAngle(_controller.transform.eulerAngles.y, targetRotation, ref _rotationVelocity, 0);
-        _controller.transform.rotation = Quaternion.Euler(0.0f, targetRotation, 0.0f);
-
-        Vector3 targetDirection = Quaternion.Euler(0.0f, targetRotation, 0.0f) * Vector3.forward;
-
-        _controller.Move(targetDirection.normalized * (speedMovement * Time.deltaTime) + new Vector3(0.0f, verticalVelocity, 0.0f) * Time.deltaTime);
     }
 }
