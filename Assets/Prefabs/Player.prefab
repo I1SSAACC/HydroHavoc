@@ -870,7 +870,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1558261637435695059}
-  _textUi: {fileID: 0}
 --- !u!1 &2473004308661841819
 GameObject:
   m_ObjectHideFlags: 0
@@ -2541,8 +2540,7 @@ MonoBehaviour:
   syncInterval: 0
   _view: {fileID: 1929582526834025782}
   _rotationName: {fileID: 3349409759004714114}
-  _prefab: {fileID: 0}
-  _name: 
+  Name: 
 --- !u!95 &1001126667836301888
 Animator:
   serializedVersion: 5
@@ -2634,6 +2632,7 @@ MonoBehaviour:
   _rotationVerticalLimits: {x: -30, y: 70}
   _cameraAngleOverride: 0
   _lockCameraPosition: 0
+  _playerMass: 80
 --- !u!114 &4961783287080418525
 MonoBehaviour:
   m_ObjectHideFlags: 0
