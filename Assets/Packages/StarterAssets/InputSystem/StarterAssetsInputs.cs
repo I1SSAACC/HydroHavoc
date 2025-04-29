@@ -1,8 +1,6 @@
 using Mirror;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM
 using UnityEngine.InputSystem;
-#endif
 
 namespace StarterAssets
 {
@@ -23,7 +21,6 @@ namespace StarterAssets
 
         public bool IsSprint => _isSprint;
 
-#if ENABLE_INPUT_SYSTEM
         public void OnMove(InputValue value) =>
             MoveInput(value.Get<Vector2>());
 
@@ -38,7 +35,6 @@ namespace StarterAssets
 
         public void OnSprint(InputValue value) =>
             SprintInput(value.isPressed);
-#endif
 
         private void OnApplicationFocus(bool hasFocus) =>
             SetCursorState(_isCursorLocked);

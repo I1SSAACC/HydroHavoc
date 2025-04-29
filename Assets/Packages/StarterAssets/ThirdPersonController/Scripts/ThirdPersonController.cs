@@ -1,19 +1,12 @@
 ﻿using System;
 using UnityEngine;
-#if ENABLE_INPUT_SYSTEM 
-using UnityEngine.InputSystem;
-#endif
 
 namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
-#if ENABLE_INPUT_SYSTEM 
-    [RequireComponent(typeof(PlayerInput))]
-#endif
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
-        [SerializeField] private PlayerCameraTarget _cameraTarget;
         [SerializeField] private float _speedChangeRate = 10.0f;
         [SerializeField] private AudioClip _landingAudioClip;
         [SerializeField] private AudioClip[] _footstepAudioClips;
@@ -21,15 +14,12 @@ namespace StarterAssets
         [SerializeField] private LayerMask _groundLayers;
 
         private Mover _mover;
-        private PlayerRotator _rotator;
+        private CameraRotator _rotator;
         private Jumper _jumper;
-        private AnimatorWrapper _animatorWrapper;
+        private PlayerAnimator _animatorWrapper;
 
         private float _animationBlend;
 
-#if ENABLE_INPUT_SYSTEM
-        private PlayerInput _playerInput;
-#endif        
         private CharacterController _controller;
         private StarterAssetsInputs _input;
 
@@ -37,11 +27,10 @@ namespace StarterAssets
         {
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
-            _playerInput = GetComponent<PlayerInput>();
 
             _mover = new(_controller, _input);
+            _rotator = new(_input, transform);
             _jumper = new(_input, transform, _groundLayers); 
-            _rotator = new(_input, _playerInput, _cameraTarget);
             _animatorWrapper = new(transform);
         }
 
@@ -104,20 +93,17 @@ namespace StarterAssets
 
         private void OnFootstep(AnimationEvent animationEvent)
         {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
+            if (animationEvent.animatorClipInfo.weight < 0.5f)
                 return;
 
-            if (_footstepAudioClips.Length <= 0)
-                return;
-
-            var index = UnityEngine.Random.Range(0, _footstepAudioClips.Length);
-            AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.center), _footstepAudioVolume);
+            int index = UnityEngine.Random.Range(0, _footstepAudioClips.Length);
+            AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
         }
 
         private void OnLand(AnimationEvent animationEvent)
         {
             if (animationEvent.animatorClipInfo.weight > 0.5f)
-                AudioSource.PlayClipAtPoint(_landingAudioClip, transform.TransformPoint(_controller.center), _footstepAudioVolume);
+                AudioSource.PlayClipAtPoint(_landingAudioClip, transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
         }
     }
 }

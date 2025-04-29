@@ -1020,6 +1020,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2070925443028286827}
   - component: {fileID: 2070925443028286826}
+  - component: {fileID: 2070925443028286828}
   m_Layer: 0
   m_Name: PlayerFollowCamera
   m_TagString: Untagged
@@ -1082,6 +1083,18 @@ Transform:
   - {fileID: 2070925443526839471}
   m_Father: {fileID: 27262693}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2070925443028286828
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070925443028286612}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 483082705e8d7324b91885360c25ed63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2070925443526839464
 GameObject:
   m_ObjectHideFlags: 3
@@ -2470,10 +2483,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7643466162345490841}
-  - component: {fileID: 7643466162345490843}
   - component: {fileID: 7061606535226583670}
   - component: {fileID: 7000291957344580615}
-  - component: {fileID: 7643466162345490842}
+  - component: {fileID: 7643466162345490843}
   m_Layer: 0
   m_Name: Water_Alpha
   m_TagString: Untagged
@@ -2537,28 +2549,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 6848397697549865777}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &7643466162345490842
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7413985077228693283}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 0
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 1430891075563205910, guid: d31949561c16faa448ebd79579510eb8, type: 3}
 --- !u!114 &7643466162345490843
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2571,7 +2561,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6daad368ad1511e49a62197918e031f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  speed: 0.1
+  _speedX: 0.05
+  _speedY: 0.1
 --- !u!4 &8063073396654575536
 Transform:
   m_ObjectHideFlags: 0
@@ -2858,7 +2849,7 @@ Camera:
   m_ShutterSpeed: 0.005
   m_Aperture: 16
   m_FocusDistance: 10
-  m_FocalLength: 50
+  m_FocalLength: 32.96973
   m_BladeCount: 5
   m_Curvature: {x: 2, y: 11}
   m_BarrelClipping: 0.25

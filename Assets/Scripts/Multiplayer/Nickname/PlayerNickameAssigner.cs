@@ -1,10 +1,10 @@
 ﻿using Mirror;
 using UnityEngine;
 
-public class PlayerName : NetworkBehaviour
+public class PlayerNickameAssigner : NetworkBehaviour
 {
-    [SerializeField] private PlayerNameView _view;
-    [SerializeField] private RotationNickname _rotationName;
+    [SerializeField] private PlayerNicknameView _view;
+    [SerializeField] private NicknameMarkerForRotation _rotationName;
 
     [SyncVar(hook = nameof(OnNameChanged))]
     public string Name;

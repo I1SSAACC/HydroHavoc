@@ -1,34 +1,42 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using Mirror;
 using Cinemachine;
+using System;
 
 namespace StarterAssets
 {
-	public class SyncController : NetworkBehaviour
-	{
-		public Transform Target;
+    [RequireComponent(typeof(CharacterController))]
+    [RequireComponent(typeof(ThirdPersonController))]
+    [RequireComponent(typeof(PlayerInput))]
+    public class SyncController : NetworkBehaviour
+    {
+        [SerializeField] private PlayerCameraTarget _target;
 
-		void Start()
-		{
-			if (isLocalPlayer)
-			{
-				CharacterController CharacterController = GetComponent<CharacterController>();
-                CharacterController.enabled = true;
+        private void Start()
+        {
+            if (isLocalPlayer)
+                Sync();
+        }
 
-				ThirdPersonController ThirdPersonController = GetComponent<ThirdPersonController>();
-				ThirdPersonController.enabled = true;
+        private void Sync()
+        {
+            CharacterController CharacterController = GetComponent<CharacterController>();
+            CharacterController.enabled = true;
 
-				PlayerInput PlayerInput = GetComponent<PlayerInput>();
-				PlayerInput.enabled = true;
+            ThirdPersonController ThirdPersonController = GetComponent<ThirdPersonController>();
+            ThirdPersonController.enabled = true;
 
-				GameObject PlayerFollowCamera = GameObject.Find("PlayerFollowCamera");
+            PlayerInput PlayerInput = GetComponent<PlayerInput>();
+            PlayerInput.enabled = true;
 
-				CinemachineVirtualCamera CinemachineVirtualCamera = PlayerFollowCamera.GetComponent<CinemachineVirtualCamera>();
-				CinemachineVirtualCamera.Follow = Target;
-			}
-		}
-	}
+            PlayerFollowCamera foolowCamera = FindObjectOfType<PlayerFollowCamera>();
+
+            if (foolowCamera == null)
+                throw new NullReferenceException($"Не удалось найти компонент {typeof(PlayerFollowCamera)} на сцене");
+
+            CinemachineVirtualCamera CinemachineVirtualCamera = foolowCamera.GetComponent<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera.Follow = _target.transform;
+        }
+    }
 }

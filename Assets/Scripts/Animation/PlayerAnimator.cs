@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-public class AnimatorWrapper
+public class PlayerAnimator
 {
     private const string Speed = nameof(Speed);
     private const string Grounded = nameof(Grounded);
@@ -13,9 +13,9 @@ public class AnimatorWrapper
     private int _animIDFreeFall;
     private int _animIDMotionSpeed;
 
-    private Animator _animator;
+    private readonly Animator _animator;
 
-    public AnimatorWrapper(Transform player)
+    public PlayerAnimator(Transform player)
     {
         AssignAnimationIDs();
         _animator = player.GetComponentInChildren<Animator>(true);
@@ -24,10 +24,10 @@ public class AnimatorWrapper
     private void AssignAnimationIDs()
     {
         _animIDSpeed = Animator.StringToHash(Speed);
+        _animIDMotionSpeed = Animator.StringToHash(MotionSpeed);
         _animIDGrounded = Animator.StringToHash(Grounded);
         _animIDJump = Animator.StringToHash(Jump);
         _animIDFreeFall = Animator.StringToHash(FreeFall);
-        _animIDMotionSpeed = Animator.StringToHash(MotionSpeed);
     }
 
     public void SetSpeed(float value) =>

@@ -324,7 +324,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1048270084373066212}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: be5f72a9ff844624dbf8be69007c7629, type: 3}
+  m_Script: {fileID: 11500000, guid: 07226e12825f5a242a7ce273c996a1b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1084183216399317998
@@ -866,7 +866,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 2435406423346183793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: afd6c296afa4faf4d8bbccbc03f642b8, type: 3}
+  m_Script: {fileID: 11500000, guid: dc986b361ed03674e9033a46411dfab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _text: {fileID: 1558261637435695059}
@@ -1244,7 +1244,7 @@ Transform:
   m_GameObject: {fileID: 4101686917102378785}
   serializedVersion: 2
   m_LocalRotation: {x: -0.000000004191002, y: 2.4670044e-11, z: 3.637979e-12, w: 1}
-  m_LocalPosition: {x: 0.000011704185, y: 1.4470171, z: 0.25250256}
+  m_LocalPosition: {x: 0.000011704185, y: 1.4470171, z: 0.154}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2521,7 +2521,7 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  Target: {fileID: 1249281853612945217}
+  _target: {fileID: 6591049325674396950}
 --- !u!114 &4718008604664152880
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2582,9 +2582,9 @@ CharacterController:
   m_Enabled: 0
   serializedVersion: 3
   m_Height: 1.67
-  m_Radius: 0.155
+  m_Radius: 0.39
   m_SlopeLimit: 45
-  m_StepOffset: 0.25
+  m_StepOffset: 0.05
   m_SkinWidth: 0.02
   m_MinMoveDistance: 0
   m_Center: {x: 0, y: 0.83, z: 0}
@@ -2600,9 +2600,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _moveSpeed: 3
-  _sprintSpeed: 6
-  _cameraTarget: {fileID: 6591049325674396950}
   _speedChangeRate: 10
   _landingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   _footstepAudioClips:
@@ -2617,17 +2614,9 @@ MonoBehaviour:
   - {fileID: 8300000, guid: 274649b0e221539409070ebf6c18918b, type: 3}
   - {fileID: 8300000, guid: a3194b8bbc96ef84fab1f98f4b7dae3e, type: 3}
   _footstepAudioVolume: 0.5
-  _jumpHeight: 1.2
-  _gravity: -10
-  _jumpTimeout: 0.5
-  _fallTimeout: 0.15
-  _isGrounded: 1
-  _groundedOffset: -0.14
-  _groundedRadius: 0.28
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  _playerMass: 80
 --- !u!114 &4961783287080418525
 MonoBehaviour:
   m_ObjectHideFlags: 0

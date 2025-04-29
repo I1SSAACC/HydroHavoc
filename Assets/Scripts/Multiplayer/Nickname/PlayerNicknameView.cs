@@ -2,7 +2,7 @@
 using TMPro;
 using System;
 
-public class PlayerNameView : MonoBehaviour
+public class PlayerNicknameView : MonoBehaviour
 {
     private const string Player = nameof(Player);
 
