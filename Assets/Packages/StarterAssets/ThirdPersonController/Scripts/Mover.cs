@@ -1,14 +1,13 @@
 ﻿using StarterAssets;
 using UnityEngine;
+using UnityEngine.Windows;
 
 [System.Serializable]
 public class Mover
 {
     private const float SpeedChangeRate = 10.0f;
-
-    [Header("Movement")]
-    [SerializeField] private float _moveSpeed = 2.0f;
-    [SerializeField] private float _sprintSpeed = 5.335f;
+    private const float MoveSpeed = 3f;
+    private const float SprintSpeed = 6f;
 
     private readonly CharacterController _controller;
     private readonly StarterAssetsInputs _input;
@@ -17,10 +16,10 @@ public class Mover
     private float _targetSpeed;
     private float _inputMagnitude;
 
-    public Mover(StarterAssetsInputs input, CharacterController controller)
+    public Mover(CharacterController controller, StarterAssetsInputs input)
     {
-        _input = input;
         _controller = controller;
+        _input = input;
         _camera = Camera.main.transform;
     }
 
@@ -30,7 +29,7 @@ public class Mover
 
     public void Move(float verticalVelocity)
     {
-        _targetSpeed = _input.IsSprint ? _moveSpeed : _sprintSpeed;
+        _targetSpeed = _input.IsSprint ? MoveSpeed : SprintSpeed;
 
         if (_input.move == Vector2.zero)
             _targetSpeed = 0.0f;

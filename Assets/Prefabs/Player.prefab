@@ -2600,11 +2600,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 26e54e5a728a9234ab24fcf1460ed8a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _mover:
-    _moveSpeed: 3
-    _sprintSpeed: 6
-  _rotationSpeed: 3
-  _rotationSmoothTime: 0
+  _moveSpeed: 3
+  _sprintSpeed: 6
+  _cameraTarget: {fileID: 6591049325674396950}
   _speedChangeRate: 10
   _landingAudioClip: {fileID: 8300000, guid: ff697d3070687ce4583faa0561a145a2, type: 3}
   _footstepAudioClips:
@@ -2629,10 +2627,6 @@ MonoBehaviour:
   _groundLayers:
     serializedVersion: 2
     m_Bits: 1
-  _cameraTarget: {fileID: 6591049325674396950}
-  _rotationVerticalLimits: {x: -30, y: 70}
-  _cameraAngleOverride: 0
-  _lockCameraPosition: 0
   _playerMass: 80
 --- !u!114 &4961783287080418525
 MonoBehaviour:
