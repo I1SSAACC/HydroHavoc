@@ -12,9 +12,8 @@ namespace StarterAssets
     public class ThirdPersonController : MonoBehaviour
     {
         [Header("Player")]
-        [SerializeField] private float _moveSpeed = 2.0f;
+        [SerializeField] private Mover _mover;
         [SerializeField] private float _rotationSpeed = 1.0f;
-        [SerializeField] private float _sprintSpeed = 5.335f;
 
         [SerializeField][Range(0.0f, 0.3f)] private float _rotationSmoothTime = 0.12f;
         [SerializeField] private float _speedChangeRate = 10.0f;
@@ -44,7 +43,6 @@ namespace StarterAssets
         
         [SerializeField] private float _playerMass = 53.0f;
 
-        private Mover _mover;
         private AnimatorWrapper _animatorWrapper;
 
         private float _cinemachineTargetYaw;
@@ -82,7 +80,7 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 
-            _mover = new(_input, _controller, _moveSpeed, _sprintSpeed);
+            _mover = new(_input, _controller);
             _animatorWrapper = new(transform);
         }
 

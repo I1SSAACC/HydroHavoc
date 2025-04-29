@@ -1,25 +1,26 @@
 ﻿using StarterAssets;
 using UnityEngine;
 
+[System.Serializable]
 public class Mover
 {
     private const float SpeedChangeRate = 10.0f;
 
+    [Header("Movement")]
+    [SerializeField] private float _moveSpeed = 2.0f;
+    [SerializeField] private float _sprintSpeed = 5.335f;
+
     private readonly CharacterController _controller;
     private readonly StarterAssetsInputs _input;
-    private readonly float _moveSpeed;
-    private readonly float _sprintSpeed;
     private readonly Transform _camera;
 
     private float _targetSpeed;
     private float _inputMagnitude;
 
-    public Mover(StarterAssetsInputs input, CharacterController controller, float moveSpeed, float sprintSpeed)
+    public Mover(StarterAssetsInputs input, CharacterController controller)
     {
         _input = input;
         _controller = controller;
-        _moveSpeed = moveSpeed;
-        _sprintSpeed = sprintSpeed;
         _camera = Camera.main.transform;
     }
 
