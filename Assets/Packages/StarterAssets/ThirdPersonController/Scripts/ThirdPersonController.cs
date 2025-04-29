@@ -40,6 +40,8 @@ namespace StarterAssets
         [SerializeField] private float _cameraAngleOverride = 0.0f;
 
         [SerializeField] private bool _lockCameraPosition = false;
+        
+        [SerializeField] private float _playerMass = 53.0f;
 
         private AnimatorWrapper _animatorWrapper;
 
@@ -48,7 +50,7 @@ namespace StarterAssets
 
         private float _animationBlend;
         private float _verticalVelocity;
-        private float _terminalVelocity = 53.0f;
+        
 
         private float _jumpTimeoutDelta;
         private float _fallTimeoutDelta;
@@ -186,7 +188,7 @@ namespace StarterAssets
                 _input.jump = false;
             }
 
-            if (_verticalVelocity < _terminalVelocity)
+            if (_verticalVelocity < _playerMass)
                 _verticalVelocity += _gravity * Time.deltaTime;
         }
 

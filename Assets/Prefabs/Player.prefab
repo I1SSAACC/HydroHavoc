@@ -2633,6 +2633,7 @@ MonoBehaviour:
   _rotationVerticalLimits: {x: -30, y: 70}
   _cameraAngleOverride: 0
   _lockCameraPosition: 0
+  _playerMass: 80
 --- !u!114 &4961783287080418525
 MonoBehaviour:
   m_ObjectHideFlags: 0
