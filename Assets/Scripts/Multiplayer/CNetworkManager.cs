@@ -1,3 +1,3 @@
 ﻿using Mirror;
 
-public class CNetworkManager : NetworkManager{}
+public class CNetworkManager : NetworkManager { }
