@@ -17,6 +17,7 @@ namespace StarterAssets
         private CameraRotator _rotator;
         private Jumper _jumper;
         private PlayerAnimator _animatorWrapper;
+        private DeltaMovementCalculator _movementCalculator;
 
         private float _animationBlend;
 
@@ -26,23 +27,27 @@ namespace StarterAssets
         private void Awake()
         {
             _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
+            _input = GetComponent<StarterAssetsInputs>();            
 
             _mover = new(_controller, _input);
             _rotator = new(_input, transform);
             _jumper = new(_input, transform, _groundLayers); 
             _animatorWrapper = new(transform);
+            _movementCalculator = new(transform);
         }
 
         private void Update()
         {
             ProcessJump();
             CheckGrounded();
-            Move();
+            Move();            
         }
 
-        private void LateUpdate() =>
+        private void LateUpdate()
+        {
             _rotator.RotateCamera();
+            _animatorWrapper.SetSpeed(_movementCalculator.GetNormalizedDelta());
+        }
 
         private void OnEnable()
         {
@@ -58,22 +63,26 @@ namespace StarterAssets
             _jumper.JumpCompleted -= OnJumpCompleted;
         }
 
-        private void OnJumpAppered() =>
-            _animatorWrapper.EnableJump();
+        private void OnJumpAppered()
+        {
+            //_animatorWrapper.EnableJump();
+        }
 
-        private void OnFallsFreely() =>
-            _animatorWrapper.EnableFreeFall();
+        private void OnFallsFreely()
+        {
+            //_animatorWrapper.EnableFreeFall();
+        }
 
         private void OnJumpCompleted()
         {
-            _animatorWrapper.DisableJump();
-            _animatorWrapper.DisableFreeFall();
+            //_animatorWrapper.DisableJump();
+            //_animatorWrapper.DisableFreeFall();
         }
 
         private void CheckGrounded()
         {
             _jumper.CheckGrounded();
-            _animatorWrapper.SetGrounded(_jumper.IsGrounded);
+            //_animatorWrapper.SetGrounded(_jumper.IsGrounded);
         }
 
         private void Move()
@@ -83,9 +92,6 @@ namespace StarterAssets
 
             if (_animationBlend < 0.01f)
                 _animationBlend = 0f;
-
-            _animatorWrapper.SetSpeed(_animationBlend);
-            _animatorWrapper.SetMotionSpeed(_mover.InputMagnitude);
         }
 
         private void ProcessJump() =>

@@ -1,40 +1,42 @@
 ﻿using UnityEngine;
 public class PlayerAnimator
 {
-    private const string Speed = nameof(Speed);
+    private const string MotionSpeed = nameof(MotionSpeed);
+    private const string SideSpeed = nameof(SideSpeed);
     private const string Grounded = nameof(Grounded);
     private const string Jump = nameof(Jump);
     private const string FreeFall = nameof(FreeFall);
-    private const string MotionSpeed = nameof(MotionSpeed);
 
-    private int _animIDSpeed;
+    private int _animIDMotionSpeed;
+    private int _animIDSideSpeed;
     private int _animIDGrounded;
     private int _animIDJump;
     private int _animIDFreeFall;
-    private int _animIDMotionSpeed;
 
     private readonly Animator _animator;
 
     public PlayerAnimator(Transform player)
     {
-        AssignAnimationIDs();
         _animator = player.GetComponentInChildren<Animator>(true);
+        AssignAnimationIDs();
     }
 
     private void AssignAnimationIDs()
     {
-        _animIDSpeed = Animator.StringToHash(Speed);
         _animIDMotionSpeed = Animator.StringToHash(MotionSpeed);
+        _animIDSideSpeed = Animator.StringToHash(SideSpeed);
         _animIDGrounded = Animator.StringToHash(Grounded);
         _animIDJump = Animator.StringToHash(Jump);
         _animIDFreeFall = Animator.StringToHash(FreeFall);
     }
 
-    public void SetSpeed(float value) =>
-        _animator.SetFloat(_animIDSpeed, value);
+    public void SetSpeed(Vector2 value)
+    {
+        _animator.SetFloat(_animIDSideSpeed, value.x);
+        _animator.SetFloat(_animIDMotionSpeed, value.y);
 
-    public void SetMotionSpeed(float value) =>
-        _animator.SetFloat(_animIDMotionSpeed, value);
+        Debug.Log(value);
+    }
 
     public void SetGrounded(bool isGrounded) =>
         _animator.SetBool(_animIDGrounded, isGrounded);
