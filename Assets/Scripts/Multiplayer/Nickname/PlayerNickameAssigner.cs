@@ -3,7 +3,8 @@ using UnityEngine;
 
 public class PlayerNickameAssigner : NetworkBehaviour
 {
-    [SerializeField] private PlayerNicknameView _view;
+    [SerializeField] private PlayerNicknameView _viewName;
+    [SerializeField] private PlayerHealthView _viewHP;
     [SerializeField] private NicknameMarkerForRotation _rotationName;
 
     [SyncVar(hook = nameof(OnNameChanged))]
@@ -17,10 +18,11 @@ public class PlayerNickameAssigner : NetworkBehaviour
 
     public override void OnStartLocalPlayer()
     {
-        string name = _view.CreateName();
-        _view.UpdateName(name);
-        _view.UpdateCanvasName(name, isLocalPlayer);
-        _view.gameObject.SetActive(false);
+        string name = _viewName.CreateName();
+        _viewName.UpdateName(name);
+        _viewName.UpdateCanvasName(name, isLocalPlayer);
+        _viewName.gameObject.SetActive(false);
+        _viewHP.gameObject.SetActive(false);
 
         CmdSetupPlayer(name);
     }
@@ -31,7 +33,7 @@ public class PlayerNickameAssigner : NetworkBehaviour
 
     private void OnNameChanged(string oldName, string newName)
     {
-        _view.UpdateName(Name);
-        _view.UpdateCanvasName(Name, isLocalPlayer);
+        _viewName.UpdateName(Name);
+        _viewName.UpdateCanvasName(Name, isLocalPlayer);
     }
 }
