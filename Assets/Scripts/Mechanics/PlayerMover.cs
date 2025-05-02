@@ -47,7 +47,7 @@ public class PlayerMover
     {
         if (_inputs.Move == Vector2.zero)
             return 0f;
-        if (_inputs.IsSneaking)
+        if (_inputs.IsCrouching)
             return PlayerParams.SneakingSpeed;
         if (_inputs.IsWalking)
             return PlayerParams.WalkingSpeed;

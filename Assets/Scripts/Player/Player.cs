@@ -33,7 +33,7 @@ namespace StarterAssets
 
         private void Update()
         {
-            ProcessJump();
+            //ProcessJump();
             CheckGrounded();
             Move();
             _animatorWrapper.UpdateSpeedMovement();

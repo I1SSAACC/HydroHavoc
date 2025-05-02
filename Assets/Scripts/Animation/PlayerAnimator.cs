@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 public class PlayerAnimator
 {
-    private const float SpeedSmooth = 5f;
+    private const float SpeedSmooth = 1.5f;
 
     private const string MotionSpeed = nameof(MotionSpeed);
     private const string SideSpeed = nameof(SideSpeed);

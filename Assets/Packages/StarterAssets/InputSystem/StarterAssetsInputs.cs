@@ -11,7 +11,7 @@ namespace StarterAssets
         private Vector2 _look;
         private bool _isJump;
         private bool _isWalking;
-        private bool _isSneaking;
+        private bool _isCrouching;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -28,7 +28,7 @@ namespace StarterAssets
 
         public bool IsJump => _isJump;
 
-        public bool IsSneaking => _isSneaking;
+        public bool IsCrouching => _isCrouching;
 
         public void SetJumpStatus(bool isJump) =>
             _isJump = isJump;
@@ -45,6 +45,12 @@ namespace StarterAssets
         public void OnJump(InputValue value) =>
             JumpInput(value.isPressed);
 
+        public void OnCrouching(InputValue value) =>
+            CrouchingInputDown(value.isPressed);
+
+        public void OnCrouchingUp(InputValue value) =>
+            CrouchingInputDown(false);
+
         public void OnSprint(InputValue value) =>
             SprintInput(value.isPressed);
 
@@ -59,6 +65,9 @@ namespace StarterAssets
 
         public void JumpInput(bool newJumpState) =>
             _isJump = newJumpState;
+
+        public void CrouchingInputDown(bool isCrouching) =>
+            _isCrouching = isCrouching;
 
         public void SprintInput(bool newSprintState) =>
             _isWalking = newSprintState;
