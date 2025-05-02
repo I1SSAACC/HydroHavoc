@@ -5,26 +5,30 @@ using TMPro;
 public class PlayerHealth : NetworkBehaviour
 {
     [SyncVar(hook = nameof(OnHealthChanged))]
-    [SerializeField] private int health = 100;
+    [SerializeField] private int _health = 100;
 
-    [SerializeField] private TMP_Text healthText;
+    [SerializeField] private TMP_Text _healthText;
 
     private void Start() =>
         UpdateHealthText();
 
+    [Command]
+    public void CmdTakeDamage(int amount) =>
+        TakeDamage(amount);
+
     [Server]
     public void TakeDamage(int amount)
     {
-        health -= amount;
-        if (health < 0) health = 0;
+        _health -= amount;
+        if (_health < 0) _health = 0;
 
-        RpcUpdateHealth(health);
+        RpcUpdateHealth(_health);
     }
 
     [ClientRpc]
     private void RpcUpdateHealth(int newHealth)
     {
-        health = newHealth;
+        _health = newHealth;
         UpdateHealthText();
     }
 
@@ -33,7 +37,7 @@ public class PlayerHealth : NetworkBehaviour
 
     private void UpdateHealthText()
     {
-        if (healthText != null)
-            healthText.text = "HP: " + health;
+        if (_healthText != null)
+            _healthText.text = "HP: " + _health;
     }
 }
