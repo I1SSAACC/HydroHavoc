@@ -36,13 +36,11 @@ namespace StarterAssets
             ProcessJump();
             CheckGrounded();
             Move();
-        }
-
-        private void LateUpdate()
-        {
-            _rotator.RotateCamera();
             _animatorWrapper.UpdateSpeedMovement();
         }
+
+        private void LateUpdate() =>
+            _rotator.RotateCamera();
 
         private void OnEnable()
         {

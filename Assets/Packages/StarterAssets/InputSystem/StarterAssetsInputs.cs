@@ -10,7 +10,8 @@ namespace StarterAssets
         private Vector2 _move;
         private Vector2 _look;
         private bool _isJump;
-        private bool _isSprint;
+        private bool _isWalking;
+        private bool _isSneaking;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -19,13 +20,15 @@ namespace StarterAssets
         [SerializeField] private bool _isCursorLocked = true;
         [SerializeField] private bool _isInputRotation = true;
 
-        public bool IsSprint => _isSprint;
+        public bool IsWalking => _isWalking;
 
         public Vector2 Move => _move;
 
         public Vector2 Look => _look;
 
         public bool IsJump => _isJump;
+
+        public bool IsSneaking => _isSneaking;
 
         public void SetJumpStatus(bool isJump) =>
             _isJump = isJump;
@@ -58,7 +61,7 @@ namespace StarterAssets
             _isJump = newJumpState;
 
         public void SprintInput(bool newSprintState) =>
-            _isSprint = newSprintState;
+            _isWalking = newSprintState;
 
         private void SetCursorState(bool newState) =>
             Cursor.lockState = newState ? CursorLockMode.Locked : CursorLockMode.None;

@@ -17,8 +17,7 @@ public class PlayerAnimator
 
     private readonly Animator _animator;
     private readonly DeltaMovementCalculator _deltaCalculator;
-    private readonly Smoother _sideSmoother;
-    private readonly Smoother _forwardSmoother;
+    private readonly Smoother _smoother;
 
     public PlayerAnimator(Transform player)
     {
@@ -26,8 +25,7 @@ public class PlayerAnimator
         AssignAnimationIDs();
 
         _deltaCalculator = new(player);
-        _sideSmoother = new(SpeedSmooth);
-        _forwardSmoother = new(SpeedSmooth);
+        _smoother = new(SpeedSmooth);
     }
 
     private void AssignAnimationIDs()
@@ -42,8 +40,7 @@ public class PlayerAnimator
     public void UpdateSpeedMovement()
     {
         Vector2 inputs = _deltaCalculator.GetNormalizedDelta();
-        inputs.x = _sideSmoother.GetSmoothValue(inputs.x);
-        inputs.y = _forwardSmoother.GetSmoothValue(inputs.y);
+        inputs = _smoother.GetSmoothValue(inputs);
         SetSpeed(inputs);
 
         Debug.Log($"Smooth inputs = {inputs}");
