@@ -263,7 +263,7 @@ MonoBehaviour:
   offlineScene: 
   onlineScene: Assets/Scenes/Playground.unity
   offlineSceneLoadDelay: 0
-  playerPrefab: {fileID: 8590722294643693138, guid: 0caed934e6d1f1641825a7fc25fb6521,
+  playerPrefab: {fileID: 4916710901807001582, guid: 0caed934e6d1f1641825a7fc25fb6521,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
