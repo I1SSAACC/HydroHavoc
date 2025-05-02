@@ -7,9 +7,9 @@ namespace StarterAssets
     public class StarterAssetsInputs : NetworkBehaviour
     {
         [Header("Character Input Values")]
-        public Vector2 move;
-        public Vector2 look;
-        public bool jump;
+        private Vector2 _move;
+        private Vector2 _look;
+        private bool _isJump;
         private bool _isSprint;
 
         [Header("Movement Settings")]
@@ -20,6 +20,15 @@ namespace StarterAssets
         [SerializeField] private bool _isInputRotation = true;
 
         public bool IsSprint => _isSprint;
+
+        public Vector2 Move => _move;
+
+        public Vector2 Look => _look;
+
+        public bool IsJump => _isJump;
+
+        public void SetJumpStatus(bool isJump) =>
+            _isJump = isJump;
 
         public void OnMove(InputValue value) =>
             MoveInput(value.Get<Vector2>());
@@ -40,13 +49,13 @@ namespace StarterAssets
             SetCursorState(_isCursorLocked);
 
         public void MoveInput(Vector2 newMoveDirection) =>
-            move = newMoveDirection;
+            _move = newMoveDirection;
 
         public void LookInput(Vector2 newLookDirection) =>
-            look = newLookDirection;
+            _look = newLookDirection;
 
         public void JumpInput(bool newJumpState) =>
-            jump = newJumpState;
+            _isJump = newJumpState;
 
         public void SprintInput(bool newSprintState) =>
             _isSprint = newSprintState;

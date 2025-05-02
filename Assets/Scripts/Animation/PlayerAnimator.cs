@@ -1,6 +1,8 @@
 ﻿using UnityEngine;
 public class PlayerAnimator
 {
+    private const float SpeedSmooth = 5f;
+
     private const string MotionSpeed = nameof(MotionSpeed);
     private const string SideSpeed = nameof(SideSpeed);
     private const string Grounded = nameof(Grounded);
@@ -14,11 +16,18 @@ public class PlayerAnimator
     private int _animIDFreeFall;
 
     private readonly Animator _animator;
+    private readonly DeltaMovementCalculator _deltaCalculator;
+    private readonly Smoother _sideSmoother;
+    private readonly Smoother _forwardSmoother;
 
     public PlayerAnimator(Transform player)
     {
         _animator = player.GetComponentInChildren<Animator>(true);
         AssignAnimationIDs();
+
+        _deltaCalculator = new(player);
+        _sideSmoother = new(SpeedSmooth);
+        _forwardSmoother = new(SpeedSmooth);
     }
 
     private void AssignAnimationIDs()
@@ -30,12 +39,14 @@ public class PlayerAnimator
         _animIDFreeFall = Animator.StringToHash(FreeFall);
     }
 
-    public void SetSpeed(Vector2 value)
+    public void UpdateSpeedMovement()
     {
-        _animator.SetFloat(_animIDSideSpeed, value.x);
-        _animator.SetFloat(_animIDMotionSpeed, value.y);
+        Vector2 inputs = _deltaCalculator.GetNormalizedDelta();
+        inputs.x = _sideSmoother.GetSmoothValue(inputs.x);
+        inputs.y = _forwardSmoother.GetSmoothValue(inputs.y);
+        SetSpeed(inputs);
 
-        Debug.Log(value);
+        Debug.Log($"Smooth inputs = {inputs}");
     }
 
     public void SetGrounded(bool isGrounded) =>
@@ -52,4 +63,10 @@ public class PlayerAnimator
 
     public void DisableFreeFall() =>
         _animator.SetBool(_animIDFreeFall, false);
+
+    private void SetSpeed(Vector2 value)
+    {
+        _animator.SetFloat(_animIDSideSpeed, value.x);
+        _animator.SetFloat(_animIDMotionSpeed, value.y);
+    }
 }

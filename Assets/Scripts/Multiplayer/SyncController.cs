@@ -7,7 +7,7 @@ using System;
 namespace StarterAssets
 {
     [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(ThirdPersonController))]
+    [RequireComponent(typeof(Player))]
     [RequireComponent(typeof(PlayerInput))]
     public class SyncController : NetworkBehaviour
     {
@@ -24,19 +24,18 @@ namespace StarterAssets
             CharacterController CharacterController = GetComponent<CharacterController>();
             CharacterController.enabled = true;
 
-            ThirdPersonController ThirdPersonController = GetComponent<ThirdPersonController>();
+            Player ThirdPersonController = GetComponent<Player>();
             ThirdPersonController.enabled = true;
 
             PlayerInput PlayerInput = GetComponent<PlayerInput>();
             PlayerInput.enabled = true;
 
-            PlayerFollowCamera foolowCamera = FindObjectOfType<PlayerFollowCamera>();
+            CinemachineVirtualCamera cinemachineVirtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
 
-            if (foolowCamera == null)
-                throw new NullReferenceException($"Не удалось найти компонент {typeof(PlayerFollowCamera)} на сцене");
+            if (cinemachineVirtualCamera == null)
+                throw new NullReferenceException($"Не удалось найти компонент {typeof(CinemachineVirtualCamera)} на сцене");
 
-            CinemachineVirtualCamera CinemachineVirtualCamera = foolowCamera.GetComponent<CinemachineVirtualCamera>();
-            CinemachineVirtualCamera.Follow = _target.transform;
+            cinemachineVirtualCamera.Follow = _target.transform;
         }
     }
 }

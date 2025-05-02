@@ -1,32 +1,51 @@
 using UnityEngine;
 using Mirror;
+using System.Collections;
 
 public class WaterZone : NetworkBehaviour
 {
-    [SerializeField] private int _damageAmount = 5;
-    private float damageTimer = 0f;
-    [SerializeField] private float _damageInterval = 1f;
+    private const float TickIntervalInSeconds = 0.2f;
 
-    private void OnTriggerStay(Collider other)
+    [SerializeField] private float _damageAmount;
+
+    private Coroutine _coroutine;
+    private WaitForSeconds _wait;
+
+    private void Awake() =>
+        _wait = new(TickIntervalInSeconds);
+
+    private void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
-        {
-            if (other.TryGetComponent(out PlayerHealth playerHealth))
-                playerHealth.CmdTakeDamage(_damageAmount);
-        }
+        if (isServer == true && other.TryGetComponent(out PlayerHealth health))
+            StartDamaging(health);
     }
 
-    private void Update()
+    private void OnTriggerExit(Collider other)
     {
-        Collider[] playersInZone = Physics.OverlapSphere(transform.position, 1f);
-        foreach (var player in playersInZone)
+        if (isServer == true && other.TryGetComponent(out PlayerHealth _))
+            StopDamaging();
+    }
+
+    private void StartDamaging(PlayerHealth health)
+    {
+        StopDamaging();
+        _coroutine = StartCoroutine(ApplyDamageOverTime(health));
+    }
+
+    private void StopDamaging()
+    {
+        if (_coroutine != null)
+            StopCoroutine(_coroutine);
+    }
+
+    [Server]
+    private IEnumerator ApplyDamageOverTime(PlayerHealth player)
+    {
+        while (true)
         {
-            if (player.TryGetComponent(out PlayerHealth playerHealth))
-            {
-                damageTimer += Time.deltaTime;
-                if (damageTimer >= _damageInterval)
-                    playerHealth.CmdTakeDamage(_damageAmount);
-            }
+            yield return _wait;
+
+            player.CmdTakeDamage(_damageAmount);
         }
     }
 }

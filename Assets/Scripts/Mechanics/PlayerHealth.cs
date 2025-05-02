@@ -1,43 +1,35 @@
 using UnityEngine;
 using Mirror;
-using TMPro;
+using System;
 
 public class PlayerHealth : NetworkBehaviour
 {
+    private const float MaxValue = 100;
+
+    [SerializeField] private PlayerHealthView _view;
+
     [SyncVar(hook = nameof(OnHealthChanged))]
-    [SerializeField] private int _health = 100;
+    private float _health;
 
-    [SerializeField] private TMP_Text _healthText;
-
-    private void Start() =>
-        UpdateHealthText();
+    public override void OnStartServer()
+    {
+        base.OnStartServer();
+        _health = MaxValue;
+    }
 
     [Command]
-    public void CmdTakeDamage(int amount) =>
+    public void CmdTakeDamage(float amount) =>
         TakeDamage(amount);
 
     [Server]
-    public void TakeDamage(int amount)
+    public void TakeDamage(float amount)
     {
-        _health -= amount;
-        if (_health < 0) _health = 0;
+        if (amount < 0)
+            throw new ArgumentOutOfRangeException(nameof(amount), "Значение не может быть отрицательным");
 
-        RpcUpdateHealth(_health);
+        _health = Mathf.Max(_health - amount, 0);
     }
 
-    [ClientRpc]
-    private void RpcUpdateHealth(int newHealth)
-    {
-        _health = newHealth;
-        UpdateHealthText();
-    }
-
-    private void OnHealthChanged(int oldHealth, int newHealth) =>
-        UpdateHealthText();
-
-    private void UpdateHealthText()
-    {
-        if (_healthText != null)
-            _healthText.text = "HP: " + _health;
-    }
+    private void OnHealthChanged(float _, float newHealth) =>
+        _view.UpdateValue(newHealth);
 }

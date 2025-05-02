@@ -8,23 +8,26 @@ public class PlayerNicknameView : MonoBehaviour
 
     [SerializeField] private TMP_Text _text;
 
-    public string CreateName()
+    public string CreateName(bool isLocalPlayer)
     {
         string name = $"{Player} {UnityEngine.Random.Range(100, 999)}";
-        UpdateName(name);
+        UpdateName(name, isLocalPlayer);
 
         return name;
     }
 
-    public void UpdateName(string text) =>
-        _text.text = text;
+    public void UpdateName(string newName, bool isLocalPlayer)
+    {
+        _text.text = newName;
+        UpdateCanvasName(newName, isLocalPlayer);
+    }
 
-    public void UpdateCanvasName(string name, bool isLocalPlayer)
+    private void UpdateCanvasName(string name, bool isLocalPlayer)
     {
         if (isLocalPlayer == false)
             return;
 
-        CanvasPlayerName canvasName = FindObjectOfType<CanvasPlayerName>();
+        CanvasPlayerName canvasName = FindAnyObjectByType<CanvasPlayerName>();
 
         if (canvasName == null)
             throw new NullReferenceException("Не найден компонент имени игрока на канвасе");
