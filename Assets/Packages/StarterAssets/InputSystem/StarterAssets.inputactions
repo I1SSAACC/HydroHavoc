@@ -241,7 +241,7 @@
                     "name": "",
                     "id": "c2ff5077-faed-4908-b871-e4234a82d6a4",
                     "path": "<Keyboard>/leftCtrl",
-                    "interactions": "Press(pressPoint=1.401298E-45)",
+                    "interactions": "Press",
                     "processors": "",
                     "groups": "",
                     "action": "Crouching",

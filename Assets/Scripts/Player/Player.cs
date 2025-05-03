@@ -15,7 +15,7 @@ namespace StarterAssets
         private PlayerMover _mover;
         private PlayerRotator _rotator;
         private PlayerJumper _jumper;
-        private PlayerAnimator _animatorWrapper;
+        private PlayerAnimator _animator;
 
         private CharacterController _controller;
         private StarterAssetsInputs _input;
@@ -28,15 +28,16 @@ namespace StarterAssets
             _mover = new(_controller, _input);
             _rotator = new(_input, transform);
             _jumper = new(_input, transform, _groundLayers);
-            _animatorWrapper = new(transform);
+            _animator = new(transform);
         }
 
         private void Update()
         {
             //ProcessJump();
             CheckGrounded();
+            CheckCrouching();
             Move();
-            _animatorWrapper.UpdateSpeedMovement();
+            _animator.UpdateSpeedMovement();
         }
 
         private void LateUpdate() =>
@@ -74,6 +75,14 @@ namespace StarterAssets
 
         private void CheckGrounded() =>
             _jumper.CheckGrounded();
+
+        private void CheckCrouching()
+        {
+            if (_input.IsCrouching)
+                _animator.EnableCrouching();
+            else
+                _animator.DisableCrouching();
+        }
 
         private void Move() =>
             _mover.Move(_jumper.VerticalVelocity);

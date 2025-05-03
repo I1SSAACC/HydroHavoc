@@ -5,15 +5,17 @@ public class PlayerAnimator
 
     private const string MotionSpeed = nameof(MotionSpeed);
     private const string SideSpeed = nameof(SideSpeed);
-    private const string Grounded = nameof(Grounded);
-    private const string Jump = nameof(Jump);
-    private const string FreeFall = nameof(FreeFall);
+    private const string IsGrounded = nameof(IsGrounded);
+    private const string IsJump = nameof(IsJump);
+    private const string IsFreeFall = nameof(IsFreeFall);
+    private const string IsCrouching = nameof(IsCrouching);
 
     private int _animIDMotionSpeed;
     private int _animIDSideSpeed;
     private int _animIDGrounded;
     private int _animIDJump;
     private int _animIDFreeFall;
+    private int _animIDCrouching;
 
     private readonly Animator _animator;
     private readonly DeltaMovementCalculator _deltaCalculator;
@@ -32,9 +34,10 @@ public class PlayerAnimator
     {
         _animIDMotionSpeed = Animator.StringToHash(MotionSpeed);
         _animIDSideSpeed = Animator.StringToHash(SideSpeed);
-        _animIDGrounded = Animator.StringToHash(Grounded);
-        _animIDJump = Animator.StringToHash(Jump);
-        _animIDFreeFall = Animator.StringToHash(FreeFall);
+        _animIDGrounded = Animator.StringToHash(IsGrounded);
+        _animIDJump = Animator.StringToHash(IsJump);
+        _animIDFreeFall = Animator.StringToHash(IsFreeFall);
+        _animIDCrouching = Animator.StringToHash(IsCrouching);
     }
 
     public void UpdateSpeedMovement()
@@ -42,8 +45,6 @@ public class PlayerAnimator
         Vector2 inputs = _deltaCalculator.GetNormalizedDelta();
         inputs = _smoother.GetSmoothValue(inputs);
         SetSpeed(inputs);
-
-        Debug.Log($"Smooth inputs = {inputs}");
     }
 
     public void SetGrounded(bool isGrounded) =>
@@ -60,6 +61,12 @@ public class PlayerAnimator
 
     public void DisableFreeFall() =>
         _animator.SetBool(_animIDFreeFall, false);
+
+    public void EnableCrouching() =>
+        _animator.SetBool(_animIDCrouching, true);
+
+    public void DisableCrouching() =>
+        _animator.SetBool(_animIDCrouching, false);
 
     private void SetSpeed(Vector2 value)
     {
