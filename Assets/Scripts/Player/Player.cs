@@ -10,12 +10,12 @@ namespace StarterAssets
         [SerializeField] private AudioClip _landingAudioClip;
         [SerializeField] private AudioClip[] _footstepAudioClips;
         [SerializeField][Range(0, 1)] private float _footstepAudioVolume = 0.5f;
-        [SerializeField] private LayerMask _groundLayers;
 
         private PlayerMover _mover;
         private PlayerRotator _rotator;
         private PlayerJumper _jumper;
         private PlayerAnimator _animator;
+        private PlayerCroucher _croucher;
 
         private CharacterController _controller;
         private StarterAssetsInputs _input;
@@ -25,70 +25,80 @@ namespace StarterAssets
             _controller = GetComponent<CharacterController>();
             _input = GetComponent<StarterAssetsInputs>();
 
-            _mover = new(_controller, _input);
+            _mover = new(transform);
             _rotator = new(_input, transform);
-            _jumper = new(_input, transform, _groundLayers);
+            _jumper = new(_mover);
             _animator = new(transform);
+            _croucher = new(transform);
         }
 
         private void Update()
         {
-            //ProcessJump();
-            CheckGrounded();
-            CheckCrouching();
             Move();
-            _animator.UpdateSpeedMovement();
+
+            _animator.SetGrounded(_controller.isGrounded);
+
+            if (_controller.isGrounded)
+            {
+                _animator.DisableJump();
+                _animator.DisableFreeFall();
+            }
+            else
+                _animator.EnableFreeFall();
         }
 
-        private void LateUpdate() =>
+        private void LateUpdate()
+        {
+            _animator.UpdateSpeedMovement();
             _rotator.RotateCamera();
+        }
 
         private void OnEnable()
         {
-            _jumper.JumpAppeared += OnJumpAppered;
-            _jumper.FallsFreely += OnFallsFreely;
-            _jumper.JumpCompleted += OnJumpCompleted;
+            _input.JumpPressed += OnJumpPressed;
+            _input.CrouchPressed += OnCrouchPressed;
+            _input.CrouchUnpressed += OnCrouchUnpressed;
         }
 
         private void OnDisable()
         {
-            _jumper.JumpAppeared -= OnJumpAppered;
-            _jumper.FallsFreely -= OnFallsFreely;
-            _jumper.JumpCompleted -= OnJumpCompleted;
+            _input.JumpPressed -= OnJumpPressed;
+            _input.CrouchPressed -= OnCrouchPressed;
+            _input.CrouchUnpressed -= OnCrouchUnpressed;
         }
 
-        private void OnJumpAppered()
+        private void OnJumpPressed()
         {
-            //_animatorWrapper.EnableJump();
+            if (_controller.isGrounded == false)
+                return;
+
+            _jumper.Jump();
+            _animator.EnableJump();
         }
 
-        private void OnFallsFreely()
+        private void OnCrouchPressed()
         {
-            //_animatorWrapper.EnableFreeFall();
+            _croucher.EnableCrouching();
+            _animator.EnableCrouching();
         }
 
-        private void OnJumpCompleted()
+        private void OnCrouchUnpressed()
         {
-            //_animatorWrapper.DisableJump();
-            //_animatorWrapper.DisableFreeFall();
+            _croucher.DisableCrouching();
+            _animator.DisableCrouching();
         }
 
-        private void CheckGrounded() =>
-            _jumper.CheckGrounded();
-
-        private void CheckCrouching()
+        private void Move()
         {
-            if (_input.IsCrouching)
-                _animator.EnableCrouching();
-            else
-                _animator.DisableCrouching();
+            Vector2 input = _input.Move;
+
+            if (_croucher.IsCrouching && _controller.isGrounded)
+                input *= PlayerParams.CrouchingStepMultiplierSpeed;
+            else if (_input.IsWalking)
+                input *= PlayerParams.SlowingStepMultiplierSpeed;
+
+            _mover.Move(input);            
         }
-
-        private void Move() =>
-            _mover.Move(_jumper.VerticalVelocity);
-
-        private void ProcessJump() =>
-            _jumper.ProcessJump();
 
         private void OnFootstep(AnimationEvent animationEvent)
         {

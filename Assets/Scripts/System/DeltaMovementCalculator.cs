@@ -2,7 +2,7 @@
 
 public class DeltaMovementCalculator
 {
-    private const float Threshold = 0.05f;
+    private const float Threshold = 0.0005f;
 
     private readonly Transform _transform;
     private Vector3 _previousPosition;
@@ -14,7 +14,7 @@ public class DeltaMovementCalculator
     }
 
     public Vector2 GetNormalizedDelta() =>
-        GetDelta() / (6 * Time.deltaTime);
+        GetDelta() / (PlayerParams.DefaultSpeed * Time.deltaTime);
 
     private Vector2 GetDelta()
     {

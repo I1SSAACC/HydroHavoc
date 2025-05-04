@@ -2,26 +2,21 @@
 
 public class Smoother
 {
-    private readonly float _speed;
-    private Vector2 _currentValues;
-    private float _currentValue;
+    private readonly float _maxDeltaPerSecond;
+    private Vector2 _currentVector;
 
-    public Smoother(float speed)
+    public Smoother(float maxDeltaPerSecond)
     {
-        _speed = speed;
+        _maxDeltaPerSecond = maxDeltaPerSecond;
     }
 
-    public float GetSmoothValue(float targetValue)
+    public Vector2 GetSmoothedValue(Vector2 targetVector)
     {
-        _currentValue = Mathf.MoveTowards(_currentValue, targetValue, _speed * Time.deltaTime);
+        _currentVector = Vector2.MoveTowards(
+            _currentVector, 
+            targetVector, 
+            _maxDeltaPerSecond * Time.deltaTime);
 
-        return _currentValue;
-    }
-
-    public Vector2 GetSmoothValue(Vector2 targetValues)
-    {
-        _currentValues = Vector2.MoveTowards(_currentValues, targetValues, _speed * Time.deltaTime);
-
-        return _currentValues;
+        return _currentVector;
     }
 }

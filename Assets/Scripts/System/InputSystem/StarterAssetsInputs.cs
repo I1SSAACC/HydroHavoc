@@ -1,4 +1,5 @@
 using Mirror;
+using System;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,9 +10,7 @@ namespace StarterAssets
         [Header("Character Input Values")]
         private Vector2 _move;
         private Vector2 _look;
-        private bool _isJump;
         private bool _isWalking;
-        private bool _isCrouching;
 
         [Header("Movement Settings")]
         public bool analogMovement;
@@ -20,18 +19,15 @@ namespace StarterAssets
         [SerializeField] private bool _isCursorLocked = true;
         [SerializeField] private bool _isInputRotation = true;
 
+        public event Action JumpPressed;
+        public event Action CrouchPressed;
+        public event Action CrouchUnpressed;
+
         public bool IsWalking => _isWalking;
 
         public Vector2 Move => _move;
 
         public Vector2 Look => _look;
-
-        public bool IsJump => _isJump;
-
-        public bool IsCrouching => _isCrouching;
-
-        public void SetJumpStatus(bool isJump) =>
-            _isJump = isJump;
 
         public void OnMove(InputValue value) =>
             MoveInput(value.Get<Vector2>());
@@ -42,14 +38,14 @@ namespace StarterAssets
                 LookInput(value.Get<Vector2>());
         }
 
-        public void OnJump(InputValue value) =>
-            JumpInput(value.isPressed);
+        public void OnJump(InputValue _) =>
+            JumpPressed?.Invoke();
 
-        public void OnCrouching(InputValue value) =>
-            CrouchingInputDown(value.isPressed);
+        public void OnCrouching(InputValue _) =>
+            CrouchPressed?.Invoke();
 
-        public void OnCrouchingUp(InputValue value) =>
-            CrouchingInputDown(false);
+        public void OnCrouchingUp(InputValue _) =>
+            CrouchUnpressed?.Invoke();
 
         public void OnSprint(InputValue value) =>
             SprintInput(value.isPressed);
@@ -62,12 +58,6 @@ namespace StarterAssets
 
         public void LookInput(Vector2 newLookDirection) =>
             _look = newLookDirection;
-
-        public void JumpInput(bool newJumpState) =>
-            _isJump = newJumpState;
-
-        public void CrouchingInputDown(bool isCrouching) =>
-            _isCrouching = isCrouching;
 
         public void SprintInput(bool newSprintState) =>
             _isWalking = newSprintState;

@@ -1776,7 +1776,6 @@ GameObject:
   - component: {fileID: 5957566453249370606}
   - component: {fileID: 6836479442414075352}
   - component: {fileID: 6481255267019518106}
-  - component: {fileID: 6846531128595858124}
   - component: {fileID: 4502887140089431946}
   m_Layer: 8
   m_Name: Player
@@ -2113,26 +2112,6 @@ MonoBehaviour:
   _footstepAudioClips:
   - {fileID: 8300000, guid: ccf7de35293e248b6a37333d49a4e3f6, type: 3}
   _footstepAudioVolume: 0.5
-  _groundLayers:
-    serializedVersion: 2
-    m_Bits: 1
---- !u!114 &6846531128595858124
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4916710901807001582}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 909d917d73a63f940ac158d02e936645, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  pushLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  canPush: 1
-  strength: 1.1
 --- !u!114 &4502887140089431946
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3195,6 +3174,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2401805229859052172}
+  - component: {fileID: 8494245888580273058}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3219,6 +3199,18 @@ Transform:
   - {fileID: 1891537834148528108}
   m_Father: {fileID: 2324485272738400886}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &8494245888580273058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8955632615165393627}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b979f1e51f576f14fbe5959595fec0ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8968251539658921884
 GameObject:
   m_ObjectHideFlags: 0

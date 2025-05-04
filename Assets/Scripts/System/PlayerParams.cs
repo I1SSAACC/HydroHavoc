@@ -1,6 +1,9 @@
 public static class PlayerParams
 {
-    public static float WalkingSpeed = 3f;
-    public static float SneakingSpeed = 3f;
-    public static float SprintSpeed = 6f;
+    public static float DefaultSpeed = 6f;
+    public static float JumpingForce = 4f;
+    public static float Gravity = 10f;
+    public static float CrouchingStepMultiplierSpeed = 0.3f;
+    public static float SlowingStepMultiplierSpeed = 0.35f;
+    public static float CrouhingHeightMultiplier = 0.5f;
 }
