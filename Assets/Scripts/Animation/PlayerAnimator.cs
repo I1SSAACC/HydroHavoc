@@ -1,8 +1,6 @@
 ﻿using UnityEngine;
 public class PlayerAnimator
 {
-    private const float SmoothMaxDeltaPerSecond = 2.5f;
-
     private const string MotionSpeed = nameof(MotionSpeed);
     private const string SideSpeed = nameof(SideSpeed);
     private const string IsGrounded = nameof(IsGrounded);
@@ -12,7 +10,7 @@ public class PlayerAnimator
 
     private readonly Animator _animator;
     private readonly DeltaMovementCalculator _deltaCalculator;
-    private readonly Smoother _smoother;
+    private readonly MovementAnimationSmoother _smoother = new();
 
     private int _animIDMotionSpeed;
     private int _animIDSideSpeed;
@@ -29,7 +27,6 @@ public class PlayerAnimator
         AssignAnimationIDs();
 
         _deltaCalculator = new(player);
-        _smoother = new(SmoothMaxDeltaPerSecond);
     }
 
     private void AssignAnimationIDs()
@@ -46,8 +43,8 @@ public class PlayerAnimator
     {
         Vector2 inputs = _deltaCalculator.GetNormalizedDelta();
 
-        if(_isSmooth)
-            inputs = _smoother.GetSmoothedValue(inputs);
+        if (_isSmooth)
+            inputs = _smoother.CalculateMovementSmoothedValue(inputs);
 
         SetSpeed(inputs);
     }

@@ -2,8 +2,6 @@
 
 public class DeltaMovementCalculator
 {
-    private const float Threshold = 0.0005f;
-
     private readonly Transform _transform;
     private Vector3 _previousPosition;
 
@@ -21,12 +19,6 @@ public class DeltaMovementCalculator
         Vector3 delta = Utils.ResetHeight(_transform.position) - Utils.ResetHeight(_previousPosition);
         delta = _transform.InverseTransformDirection(delta);
         _previousPosition = _transform.position;
-
-        if (Mathf.Abs(delta.x) < Threshold)
-            delta.x = 0;
-
-        if (Mathf.Abs(delta.z) < Threshold)
-            delta.z = 0;
 
         return new(delta.x, delta.z);
     }
