@@ -9,7 +9,7 @@ public class PlayerHealth : NetworkBehaviour
     [SerializeField] private PlayerHealthView _view;
 
     [SyncVar(hook = nameof(OnHealthChanged))]
-    private float _health;
+    [SerializeField] private float _health;
 
     public override void OnStartServer()
     {

@@ -78,13 +78,13 @@ namespace StarterAssets
 
         private void OnCrouchPressed()
         {
-            _croucher.EnableCrouching();
+            _croucher.Crouch();
             _animator.EnableCrouching();
         }
 
         private void OnCrouchUnpressed()
         {
-            _croucher.DisableCrouching();
+            _croucher.StandUp();
             _animator.DisableCrouching();
         }
 
@@ -92,7 +92,7 @@ namespace StarterAssets
         {
             Vector2 input = _input.Move;
 
-            if (_croucher.IsCrouching && _controller.isGrounded)
+            if (_croucher.IsCrouch && _controller.isGrounded)
                 input *= PlayerParams.CrouchingStepMultiplierSpeed;
             else if (_input.IsWalking)
                 input *= PlayerParams.SlowingStepMultiplierSpeed;

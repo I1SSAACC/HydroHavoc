@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+
 public class PlayerAnimator
 {
     private const string MotionSpeed = nameof(MotionSpeed);
