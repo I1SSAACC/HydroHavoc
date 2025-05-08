@@ -2491,7 +2491,7 @@ MonoBehaviour:
   syncMethod: 0
   syncDirection: 1
   syncMode: 0
-  syncInterval: 0
+  syncInterval: 0.807
   nameplate: {fileID: 3160070222461925373}
   _viewName: {fileID: 8231041248127012413}
   _viewHP: {fileID: 2285256431385544511}

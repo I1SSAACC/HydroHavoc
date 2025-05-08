@@ -10,7 +10,7 @@ public class PlayerNicknameView : MonoBehaviour
 
     public string CreateName(bool isLocalPlayer)
     {
-        string name = $"{Player} {UnityEngine.Random.Range(100, 999)}";
+        string name = $"{Player}{UnityEngine.Random.Range(100, 999)}";
         UpdateName(name, isLocalPlayer);
 
         return name;
