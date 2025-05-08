@@ -2418,7 +2418,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   target: {fileID: 5384369875634515027}
@@ -2453,7 +2453,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -2489,7 +2489,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0.807
   nameplate: {fileID: 3160070222461925373}
@@ -2509,7 +2509,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 1
+  syncDirection: 0
   syncMode: 0
   syncInterval: 0
   _view: {fileID: 2285256431385544511}
