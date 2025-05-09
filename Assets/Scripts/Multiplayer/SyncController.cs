@@ -12,6 +12,7 @@ namespace StarterAssets
     public class SyncController : NetworkBehaviour
     {
         [SerializeField] private PlayerCameraTarget _target;
+        [SerializeField] private EyesLookToCamera _eyes;
         [SerializeField] private HeadHider _head;
 
         private void Start()
@@ -37,6 +38,10 @@ namespace StarterAssets
                 throw new NullReferenceException($"Не удалось найти компонент {typeof(CinemachineVirtualCamera)} на сцене");
 
             cinemachineVirtualCamera.Follow = _target.transform;
+
+            CameraIsHer CameraIsHer = cinemachineVirtualCamera.GetComponent<CameraIsHer>();
+
+            _eyes.Follow(CameraIsHer.Camera);
 
             _head.Hide();
         }
