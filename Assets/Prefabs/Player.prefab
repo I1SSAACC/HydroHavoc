@@ -757,7 +757,7 @@ CharacterController:
   m_Enabled: 0
   serializedVersion: 3
   m_Height: 1.67
-  m_Radius: 0.154655
+  m_Radius: 0.3
   m_SlopeLimit: 45
   m_StepOffset: 0.05
   m_SkinWidth: 0.02
@@ -782,7 +782,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.15465498
+  m_Radius: 0.3
   m_Height: 1.6690059
   m_Direction: 1
   m_Center: {x: 0.00035762787, y: 0.8303033, z: 0}
