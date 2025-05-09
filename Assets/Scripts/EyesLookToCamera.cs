@@ -4,7 +4,7 @@ public class EyesLookToCamera : MonoBehaviour
 {
     private Transform _target;
 
-    private void Update()
+    private void LateUpdate()
     {
         if (_target == null)
             return;

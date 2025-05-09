@@ -11,7 +11,7 @@ public class RigVerticalFollower : MonoBehaviour
     private void Awake() =>
         _target = _cameraTarget.transform;
 
-    private void LateUpdate() =>
+    private void Update() =>
         MaintainHeight();
 
     private void MaintainHeight()
