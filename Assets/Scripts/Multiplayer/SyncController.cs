@@ -17,8 +17,6 @@ namespace StarterAssets
         [SerializeField] private EyesLookToCamera _eyes;
         [SerializeField] private HeadHider _head;
 
-        [SerializeField] private GameObject PrefabCanvas;
-
         private void Start()
         {
             if (isLocalPlayer)
