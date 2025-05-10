@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Mirror;
 using Cinemachine;
 using System;
+using UnityEditor;
 
 namespace StarterAssets
 {
@@ -14,6 +16,8 @@ namespace StarterAssets
         [SerializeField] private PlayerCameraTarget _target;
         [SerializeField] private EyesLookToCamera _eyes;
         [SerializeField] private HeadHider _head;
+
+        [SerializeField] private GameObject PrefabCanvas;
 
         private void Start()
         {
@@ -32,7 +36,7 @@ namespace StarterAssets
             PlayerInput PlayerInput = GetComponent<PlayerInput>();
             PlayerInput.enabled = true;
 
-            CinemachineVirtualCamera cinemachineVirtualCamera = FindAnyObjectByType<CinemachineVirtualCamera>();
+            CinemachineVirtualCamera cinemachineVirtualCamera = FindFirstObjectByType<CinemachineVirtualCamera>();
 
             if (cinemachineVirtualCamera == null)
                 throw new NullReferenceException($"Не удалось найти компонент {typeof(CinemachineVirtualCamera)} на сцене");

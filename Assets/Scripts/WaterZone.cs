@@ -4,7 +4,7 @@ using System.Collections;
 
 public class WaterZone : NetworkBehaviour
 {
-    private const float TickIntervalInSeconds = 0.2f;
+    [SerializeField] private float _tickIntervalInSeconds;
 
     [SerializeField] private float _damageAmount;
 
@@ -12,17 +12,17 @@ public class WaterZone : NetworkBehaviour
     private WaitForSeconds _wait;
 
     private void Awake() =>
-        _wait = new(TickIntervalInSeconds);
+        _wait = new(_tickIntervalInSeconds);
 
     private void OnTriggerEnter(Collider other)
     {
-        if (isServer == true && other.TryGetComponent(out PlayerHealth health))
+        if (other.TryGetComponent(out PlayerHealth health))
             StartDamaging(health);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (isServer == true && other.TryGetComponent(out PlayerHealth _))
+        if (other.TryGetComponent(out PlayerHealth _))
             StopDamaging();
     }
 

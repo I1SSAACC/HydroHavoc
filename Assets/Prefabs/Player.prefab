@@ -206,6 +206,7 @@ GameObject:
   - component: {fileID: 325612545138939055}
   - component: {fileID: 6501688044588698325}
   - component: {fileID: 6975002331173765296}
+  - component: {fileID: 2162028350441118462}
   m_Layer: 0
   m_Name: Eyes
   m_TagString: Untagged
@@ -254,6 +255,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 668eb6e657e018c44b4681b46f4c74e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2162028350441118462
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 366230914060868682}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a553cb17010b2403e8523b558bffbc14, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 1
+  syncMode: 0
+  syncInterval: 0.05
+  target: {fileID: 325612545138939055}
+  updateMethod: 0
+  syncPosition: 1
+  syncRotation: 1
+  syncScale: 1
+  onlySyncOnChange: 1
+  compressRotation: 1
+  interpolatePosition: 1
+  interpolateRotation: 1
+  interpolateScale: 1
+  coordinateSpace: 0
+  timelineOffset: 1
+  showGizmos: 0
+  showOverlay: 0
+  overlayColor: {r: 0, g: 0, b: 0, a: 0.5}
+  bufferResetMultiplier: 3
+  positionSensitivity: 0.01
+  rotationSensitivity: 0.01
+  scaleSensitivity: 0.01
 --- !u!1 &372092419206537624
 GameObject:
   m_ObjectHideFlags: 0
@@ -816,7 +852,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
   target: {fileID: 3589836899478749380}
@@ -851,7 +887,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
   clientAuthority: 0
@@ -875,6 +911,8 @@ MonoBehaviour:
   _target: {fileID: 5648033831816054546}
   _eyes: {fileID: 6975002331173765296}
   _head: {fileID: 1983565774136714908}
+  PrefabCanvas: {fileID: 3880610729928104702, guid: 0539d22b305a1734094f2d306a6ffd58,
+    type: 3}
 --- !u!114 &6459467812016148372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -888,7 +926,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0.807
   nameplate: {fileID: 8306422524445107594}
@@ -908,7 +946,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   syncMethod: 0
-  syncDirection: 0
+  syncDirection: 1
   syncMode: 0
   syncInterval: 0
   _view: {fileID: 1011415641976228197}
