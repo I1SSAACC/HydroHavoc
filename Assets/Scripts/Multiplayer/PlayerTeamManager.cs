@@ -1,31 +1,59 @@
+using Mirror;
 using UnityEngine;
 using UnityEngine.UI;
-using Mirror;
 
 public class PlayerTeamManager : NetworkBehaviour
 {
-    [SerializeField] private Button _addButton;
-    [SerializeField] private Button _removeButton;
-    [SerializeField] private GameObject _player;
-    [SerializeField] private CNetworkManager _networkManager;
+    public Button addButton;
+    public Button removeButton;
 
     private void Start()
     {
-        if (_addButton != null)
-            _addButton.onClick.AddListener(AddPlayerAccount);
+        if (!isLocalPlayer)
+            return;
+
+        GameObject addButtonObject = GameObject.Find("Button_Play");
+        GameObject removeButtonObject = GameObject.Find("Button_StopSearch");
+
+        if (addButtonObject != null)
+        {
+            addButton = addButtonObject.GetComponent<Button>();
+            if (addButton != null)
+                addButton.onClick.AddListener(OnAddToTeam);
+        }
+
+        if (removeButtonObject != null)
+        {
+            removeButtonObject.SetActive(false);
+            removeButton = removeButtonObject.GetComponent<Button>();
+            if (removeButton != null)
+                removeButton.onClick.AddListener(OnRemoveFromTeam);
+        }
     }
 
-    public void AddPlayerAccount()
+    private void OnAddToTeam()
     {
-        _player = NetworkClient.localPlayer.gameObject;
-        CmdStartGame();
+        CmdAddToTeam();
     }
 
-
-    [Command(requiresAuthority = false)]
-    public void CmdStartGame(NetworkConnectionToClient sender = null)
+    private void OnRemoveFromTeam()
     {
-        _player = sender.identity.gameObject;
-        _networkManager.AddToTeam(_player);
+        CmdRemoveFromTeam();
+    }
+
+    [Command]
+    private void CmdAddToTeam()
+    {
+        GameObject player = connectionToClient.identity.gameObject;
+        Debug.Log($"Adding player to team: {player.name}"); // Отладочное сообщение
+        CNetworkManager.CustomNetworkManager.TeamCheck(player);
+    }
+
+    [Command]
+    private void CmdRemoveFromTeam()
+    {
+        GameObject player = connectionToClient.identity.gameObject;
+        Debug.Log($"Removing player from team: {player.name}"); // Отладочное сообщение
+        CNetworkManager.CustomNetworkManager.RemoveFromTeam(player);
     }
 }
