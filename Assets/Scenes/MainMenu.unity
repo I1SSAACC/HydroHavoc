@@ -288,7 +288,7 @@ GameObject:
   - component: {fileID: 672226391}
   - component: {fileID: 672226394}
   m_Layer: 0
-  m_Name: Main Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -18091,7 +18091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3447124274275870873}
   - component: {fileID: 8928341523593793205}
-  - component: {fileID: 8928341523593793204}
+  - component: {fileID: 8928341523593793206}
   - component: {fileID: 8928341523593793203}
   m_Layer: 0
   m_Name: NetworkManager
@@ -18129,20 +18129,6 @@ MonoBehaviour:
   debugLog: 0
   statisticsGUI: 0
   statisticsLog: 0
---- !u!114 &8928341523593793204
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8928341523593793201}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  offsetX: 0
-  offsetY: 0
 --- !u!114 &8928341523593793205
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -18191,6 +18177,20 @@ MonoBehaviour:
   evaluationMethod: 0
   evaluationInterval: 3
   timeInterpolationGui: 0
+--- !u!114 &8928341523593793206
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928341523593793201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6442dc8070ceb41f094e44de0bf87274, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offsetX: 0
+  offsetY: 0
 --- !u!224 &8948682976429063143
 RectTransform:
   m_ObjectHideFlags: 0

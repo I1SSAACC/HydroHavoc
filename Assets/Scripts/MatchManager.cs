@@ -22,8 +22,8 @@ public class MatchManager : MonoBehaviour
     private void Start()
     {
         CustomNetworkManager netMan = NetworkManager.singleton as CustomNetworkManager;
-        netMan.onStartServer += OnStartServer;
-        netMan.onStopServer += OnStopServer;
+        netMan.ServerStarted += OnStartServer;
+        netMan.ServerStoped += OnStopServer;
     }
 
     public void JoinMatchmaking() =>
@@ -82,12 +82,8 @@ public class MatchManager : MonoBehaviour
             SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetSceneAt(SceneManager.loadedSceneCount - 1));
 
             if (oldPlayer != null)
-            {
-                //CopyPlayerData(oldPlayer, newPlayer);
                 NetworkServer.Destroy(oldPlayer);
-            }
 
-            //NetworkServer.ReplacePlayerForConnection(conn, newPlayer, 0, true);
             NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
         }
 
@@ -96,28 +92,17 @@ public class MatchManager : MonoBehaviour
             var playerObject = conn.identity?.gameObject;
             if (playerObject != null && uiCanvas != null)
             {
-                uiCanvas.SetActive(false); // Отключаем Canvas для игрока
+                uiCanvas.SetActive(false);
+                GameObject.Find("MainCamera").GetComponent<AudioListener>().enabled = false;
             }
         }
-    }
-
-    private void CopyPlayerData(GameObject oldPlayer, GameObject newPlayer)
-    {
-        var oldPlayerComponent = oldPlayer.GetComponent<NetworkIdentity>();
-        var newPlayerComponent = newPlayer.GetComponent<NetworkIdentity>();
-
-        //if (oldPlayerComponent != null && newPlayerComponent != null)
-        //{
-        //    newPlayerComponent.health = oldPlayerComponent.health;
-        //    newPlayerComponent.position = oldPlayerComponent.position;
-        //}
     }
 
     private void OnDestroy()
     {
         CustomNetworkManager netMan = NetworkManager.singleton as CustomNetworkManager;
         if (netMan == null) return;
-        netMan.onStartServer -= OnStartServer;
-        netMan.onStopServer -= OnStopServer;
+        netMan.ServerStarted -= OnStartServer;
+        netMan.ServerStoped -= OnStopServer;
     }
 }
