@@ -638,10 +638,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3589836899478749380}
+  - component: {fileID: 4381469946663789006}
   - component: {fileID: 7419820489458352037}
   - component: {fileID: 7454682089577129623}
   - component: {fileID: 256773567453184178}
-  - component: {fileID: 4485256089027993448}
   - component: {fileID: 3154795527958795338}
   - component: {fileID: 1597336233515527653}
   - component: {fileID: 720675549676688470}
@@ -675,6 +675,23 @@ Transform:
   - {fileID: 8259323983550116656}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4381469946663789006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 999801429910213915}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 537453016
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!114 &7419820489458352037
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -822,23 +839,6 @@ CapsuleCollider:
   m_Height: 1.6690059
   m_Direction: 1
   m_Center: {x: 0.00035762787, y: 0.8303033, z: 0}
---- !u!114 &4485256089027993448
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 999801429910213915}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 537453016
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &3154795527958795338
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -911,8 +911,6 @@ MonoBehaviour:
   _target: {fileID: 5648033831816054546}
   _eyes: {fileID: 6975002331173765296}
   _head: {fileID: 1983565774136714908}
-  PrefabCanvas: {fileID: 3880610729928104702, guid: 0539d22b305a1734094f2d306a6ffd58,
-    type: 3}
 --- !u!114 &6459467812016148372
 MonoBehaviour:
   m_ObjectHideFlags: 0

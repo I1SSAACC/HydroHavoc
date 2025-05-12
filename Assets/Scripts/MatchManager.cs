@@ -4,14 +4,19 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine.SceneManagement;
 
-public struct MatchmakingMessage : NetworkMessage{}
-public struct LeaveMatchmakingMessage : NetworkMessage{}
+public struct MatchmakingMessage : NetworkMessage { }
+public struct LeaveMatchmakingMessage : NetworkMessage { }
 
-public struct PlayerInfo{public NetworkConnectionToClient connection;}
+public struct PlayerInfo
+{
+    public NetworkConnectionToClient connection;
+}
 
 public class MatchManager : MonoBehaviour
 {
     [SerializeField] private int requiredPlayers = 1;
+    [SerializeField] private GameObject playerPrefab;
+    [SerializeField] private GameObject uiCanvas;
     private List<PlayerInfo> playersInQueue = new List<PlayerInfo>();
 
     private void Start()
@@ -39,7 +44,7 @@ public class MatchManager : MonoBehaviour
         NetworkServer.UnregisterHandler<LeaveMatchmakingMessage>();
     }
 
-    private void OnMatchmakingMessageReceived(NetworkConnectionToClient conn, MatchmakingMessage message)
+    private void OnMatchmakingMessageReceived(NetworkConnectionToClient conn, MatchmakingMessage _)
     {
         PlayerInfo playerInfo = new PlayerInfo() { connection = conn };
         playersInQueue.Add(playerInfo);
@@ -48,7 +53,7 @@ public class MatchManager : MonoBehaviour
             StartMatch();
     }
 
-    private void OnLeaveMatchmakingMessageReceived(NetworkConnectionToClient conn, LeaveMatchmakingMessage message)
+    private void OnLeaveMatchmakingMessageReceived(NetworkConnectionToClient conn, LeaveMatchmakingMessage _)
     {
         PlayerInfo playerToRemove = playersInQueue.Find(p => p.connection == conn);
         if (playerToRemove.connection != null)
@@ -71,10 +76,40 @@ public class MatchManager : MonoBehaviour
 
         foreach (var conn in conns)
         {
-            GameObject newPlayer = Instantiate(NetworkManager.singleton.playerPrefab);
+            GameObject oldPlayer = conn.identity?.gameObject;
+
+            GameObject newPlayer = Instantiate(playerPrefab);
             SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetSceneAt(SceneManager.loadedSceneCount - 1));
-            NetworkServer.AddPlayerForConnection(conn, newPlayer);
+
+            if (oldPlayer != null)
+            {
+                //CopyPlayerData(oldPlayer, newPlayer);
+                NetworkServer.Destroy(oldPlayer);
+            }
+
+            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, true);
         }
+
+        foreach (var conn in conns)
+        {
+            var playerObject = conn.identity?.gameObject;
+            if (playerObject != null && uiCanvas != null)
+            {
+                uiCanvas.SetActive(false); // Отключаем Canvas для игрока
+            }
+        }
+    }
+
+    private void CopyPlayerData(GameObject oldPlayer, GameObject newPlayer)
+    {
+        var oldPlayerComponent = oldPlayer.GetComponent<NetworkIdentity>();
+        var newPlayerComponent = newPlayer.GetComponent<NetworkIdentity>();
+
+        //if (oldPlayerComponent != null && newPlayerComponent != null)
+        //{
+        //    newPlayerComponent.health = oldPlayerComponent.health;
+        //    newPlayerComponent.position = oldPlayerComponent.position;
+        //}
     }
 
     private void OnDestroy()
