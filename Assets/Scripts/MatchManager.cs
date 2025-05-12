@@ -14,7 +14,7 @@ public struct PlayerInfo
 
 public class MatchManager : MonoBehaviour
 {
-    [SerializeField] private int requiredPlayers = 1;
+    [SerializeField] private int requiredPlayers;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private GameObject uiCanvas;
     private List<PlayerInfo> playersInQueue = new List<PlayerInfo>();
@@ -87,7 +87,8 @@ public class MatchManager : MonoBehaviour
                 NetworkServer.Destroy(oldPlayer);
             }
 
-            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, true);
+            //NetworkServer.ReplacePlayerForConnection(conn, newPlayer, 0, true);
+            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
         }
 
         foreach (var conn in conns)
