@@ -85,6 +85,9 @@ public class MatchManager : MonoBehaviour
                 NetworkServer.Destroy(oldPlayer);
 
             NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
+
+            //Nickname name = newPlayer.GetComponent<Nickname>();
+            //name.SetName(NicknameRandomizer.GetCreatedName());
         }
 
         foreach (var conn in conns)
