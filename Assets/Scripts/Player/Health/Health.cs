@@ -2,11 +2,11 @@ using UnityEngine;
 using Mirror;
 using System;
 
-public class PlayerHealth : NetworkBehaviour
+public class Health : NetworkBehaviour
 {
     private const float MaxValue = 100;
 
-    [SerializeField] private PlayerHealthView _view;
+    [SerializeField] private HealthView _view;
 
     [SyncVar(hook = nameof(OnHealthChanged))]
     [SerializeField] private float _health;

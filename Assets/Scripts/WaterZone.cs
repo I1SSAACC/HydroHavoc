@@ -16,17 +16,17 @@ public class WaterZone : NetworkBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        if (other.TryGetComponent(out PlayerHealth health))
+        if (other.TryGetComponent(out Health health))
             StartDamaging(health);
     }
 
     private void OnTriggerExit(Collider other)
     {
-        if (other.TryGetComponent(out PlayerHealth _))
+        if (other.TryGetComponent(out Health _))
             StopDamaging();
     }
 
-    private void StartDamaging(PlayerHealth health)
+    private void StartDamaging(Health health)
     {
         StopDamaging();
         _coroutine = StartCoroutine(ApplyDamageOverTime(health));
@@ -39,7 +39,7 @@ public class WaterZone : NetworkBehaviour
     }
 
     [Server]
-    private IEnumerator ApplyDamageOverTime(PlayerHealth player)
+    private IEnumerator ApplyDamageOverTime(Health player)
     {
         while (true)
         {

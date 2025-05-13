@@ -2,17 +2,14 @@
 
 public static class Utils
 {
-    public static Vector3 ResetHeight(Vector3 value)
-    {
-        value.y = 0;
-        return value;
-    }
+    public static Vector3 ResetHeight(Vector3 value) =>
+        new(value.x, 0, value.z);
 
-    public static float RoundThreeDecimalPlaces(float value) =>
-        Mathf.Round(value * 1000f) / 1000f;
-
-    public static bool IsHeadless()
+    public static float ClampAngle(float angle, float minValue, float maxValue)
     {
-        return Application.isBatchMode;
+        if (angle < -360f) angle += 360f;
+        if (angle > 360f) angle -= 360f;
+
+        return Mathf.Clamp(angle, minValue, maxValue);
     }
 }

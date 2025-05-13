@@ -1,8 +1,8 @@
-﻿public class PlayerJumper
+﻿public class Jumper
 {
     private readonly PlayerMover _mover;
 
-    public PlayerJumper(PlayerMover mover)
+    public Jumper(PlayerMover mover)
     {
         _mover = mover;
     }

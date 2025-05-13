@@ -1,3 +1,5 @@
+using UnityEngine;
+
 public static class PlayerParams
 {
     public static float DefaultSpeed = 6f;
@@ -8,4 +10,6 @@ public static class PlayerParams
     public static float CrouchHeightMultiplier = 0.7f;
     public static float CrouchSmoothTime = 0.2f;
     public static float SmoothTimeAnimationMovement = 0.15f;
+    public static float RotationSensitivity = 2f;
+    public static Vector2 VerticalRotationLimits = new (-90f, 90f);
 }

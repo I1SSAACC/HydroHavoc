@@ -2,19 +2,9 @@
 using TMPro;
 using System;
 
-public class PlayerNicknameView : MonoBehaviour
+public class NicknameView : MonoBehaviour
 {
-    private const string Player = nameof(Player);
-
     [SerializeField] private TMP_Text _text;
-
-    public string CreateName(bool isLocalPlayer)
-    {
-        string name = $"{Player}{UnityEngine.Random.Range(100, 999)}";
-        UpdateName(name, isLocalPlayer);
-
-        return name;
-    }
 
     public void UpdateName(string newName, bool isLocalPlayer)
     {

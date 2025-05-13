@@ -1,118 +1,116 @@
 ﻿using System;
 using UnityEngine;
 
-namespace StarterAssets
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(InputInformer))]
+public class Player : MonoBehaviour
 {
-    [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(StarterAssetsInputs))]
-    public class Player : MonoBehaviour
+    [SerializeField] private AudioClip _landingAudioClip;
+    [SerializeField] private AudioClip[] _footstepAudioClips;
+    [SerializeField][Range(0, 1)] private float _footstepAudioVolume = 0.5f;
+
+    private PlayerAnimator _animator;
+    private PlayerMover _mover;
+    private PlayerRotator _rotator;
+    private Jumper _jumper;
+    private Croucher _croucher;
+
+    private CharacterController _controller;
+    private InputInformer _input;
+
+    private void Awake()
     {
-        [SerializeField] private AudioClip _landingAudioClip;
-        [SerializeField] private AudioClip[] _footstepAudioClips;
-        [SerializeField][Range(0, 1)] private float _footstepAudioVolume = 0.5f;
+        _controller = GetComponent<CharacterController>();
+        _input = GetComponent<InputInformer>();
 
-        private PlayerMover _mover;
-        private PlayerRotator _rotator;
-        private PlayerJumper _jumper;
-        private PlayerAnimator _animator;
-        private PlayerCroucher _croucher;
+        _mover = new(transform);
+        _rotator = new(_input, transform);
+        _jumper = new(_mover);
+        _animator = new(transform);
+        _croucher = new(transform);
+    }
 
-        private CharacterController _controller;
-        private StarterAssetsInputs _input;
+    private void Update()
+    {
+        Move();
+        _animator.SetGrounded(_controller.isGrounded);
 
-        private void Awake()
+        if (_controller.isGrounded)
         {
-            _controller = GetComponent<CharacterController>();
-            _input = GetComponent<StarterAssetsInputs>();
-
-            _mover = new(transform);
-            _rotator = new(_input, transform);
-            _jumper = new(_mover);
-            _animator = new(transform);
-            _croucher = new(transform);
+            _animator.DisableJump();
+            _animator.DisableFreeFall();
         }
-
-        private void Update()
+        else
         {
-            Move();
-
-            _animator.SetGrounded(_controller.isGrounded);
-
-            if (_controller.isGrounded)
-            {
-                _animator.DisableJump();
-                _animator.DisableFreeFall();
-            }
-            else
-                _animator.EnableFreeFall();
+            _animator.EnableFreeFall();
         }
+    }
 
-        private void LateUpdate()
-        {
-            _animator.UpdateSpeedMovement();
-            _rotator.RotateCamera();
-        }
+    private void LateUpdate()
+    {
+        _animator.UpdateSpeedMovement();
+        _rotator.RotateCamera();
+    }
 
-        private void OnEnable()
-        {
-            _input.JumpPressed += OnJumpPressed;
-            _input.CrouchPressed += OnCrouchPressed;
-            _input.CrouchUnpressed += OnCrouchUnpressed;
-        }
+    private void OnEnable()
+    {
+        _input.JumpPressed += OnJumpPressed;
+        _input.CrouchPressed += OnCrouchPressed;
+        _input.CrouchUnpressed += OnCrouchUnpressed;
+    }
 
-        private void OnDisable()
-        {
-            _input.JumpPressed -= OnJumpPressed;
-            _input.CrouchPressed -= OnCrouchPressed;
-            _input.CrouchUnpressed -= OnCrouchUnpressed;
-        }
+    private void OnDisable()
+    {
+        _input.JumpPressed -= OnJumpPressed;
+        _input.CrouchPressed -= OnCrouchPressed;
+        _input.CrouchUnpressed -= OnCrouchUnpressed;
+    }
 
-        private void OnJumpPressed()
-        {
-            if (_controller.isGrounded == false)
-                return;
+    private void OnJumpPressed()
+    {
+        if (_controller.isGrounded == false)
+            return;
 
-            _jumper.Jump();
-            _animator.EnableJump();
-        }
+        _jumper.Jump();
+        _animator.EnableJump();
+    }
 
-        private void OnCrouchPressed()
-        {
-            _croucher.Crouch();
-            _animator.EnableCrouching();
-        }
+    private void OnCrouchPressed()
+    {
+        _croucher.Crouch();
+        _animator.EnableCrouching();
+    }
 
-        private void OnCrouchUnpressed()
-        {
-            _croucher.StandUp();
-            _animator.DisableCrouching();
-        }
+    private void OnCrouchUnpressed()
+    {
+        _croucher.StandUp();
+        _animator.DisableCrouching();
+    }
 
-        private void Move()
-        {
-            Vector2 input = _input.Move;
+    private void Move()
+    {
+        Vector2 input = _input.Move;
 
-            if (_croucher.IsCrouch && _controller.isGrounded)
-                input *= PlayerParams.CrouchingStepMultiplierSpeed;
-            else if (_input.IsWalking)
-                input *= PlayerParams.SlowingStepMultiplierSpeed;
+        if (_croucher.IsCrouch && _controller.isGrounded)
+            input *= PlayerParams.CrouchingStepMultiplierSpeed;
+        else if (_input.IsWalking)
+            input *= PlayerParams.SlowingStepMultiplierSpeed;
 
-            _mover.Move(input);            
-        }
+        _mover.Move(input);
+    }
 
-        private void OnFootstep(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight < 0.5f)
-                return;
+    private void OnFootstep(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight < 0.5f)
+            return;
 
-            int index = UnityEngine.Random.Range(0, _footstepAudioClips.Length);
-            AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
-        }
+        int index = UnityEngine.Random.Range(0, _footstepAudioClips.Length);
+        AudioSource.PlayClipAtPoint(_footstepAudioClips[index], transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
+    }
 
-        private void OnLand(AnimationEvent animationEvent)
-        {
-            if (animationEvent.animatorClipInfo.weight > 0.5f)
-                AudioSource.PlayClipAtPoint(_landingAudioClip, transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
-        }
+    private void OnLand(AnimationEvent animationEvent)
+    {
+        if (animationEvent.animatorClipInfo.weight > 0.5f)
+            AudioSource.PlayClipAtPoint(_landingAudioClip, transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
     }
 }

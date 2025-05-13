@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class PlayerCroucher
+public class Croucher
 {
     private readonly Transform _player;
     private readonly CharacterController _controller;
@@ -20,7 +20,7 @@ public class PlayerCroucher
     private bool _isCrouch;
     private float _smoothTime;
 
-    public PlayerCroucher(Transform transform)
+    public Croucher(Transform transform)
     {
         _player = transform;
         _controller = transform.GetComponent<CharacterController>();

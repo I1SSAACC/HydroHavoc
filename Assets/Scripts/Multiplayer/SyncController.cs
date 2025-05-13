@@ -1,51 +1,41 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 using UnityEngine.InputSystem;
 using Mirror;
 using Cinemachine;
 using System;
-using UnityEditor;
 
-namespace StarterAssets
+[RequireComponent(typeof(CharacterController))]
+[RequireComponent(typeof(Player))]
+[RequireComponent(typeof(PlayerInput))]
+public class SyncController : NetworkBehaviour
 {
-    [RequireComponent(typeof(CharacterController))]
-    [RequireComponent(typeof(Player))]
-    [RequireComponent(typeof(PlayerInput))]
-    public class SyncController : NetworkBehaviour
+    [SerializeField] private PlayerCameraTarget _target;
+    [SerializeField] private HeadHider _head;
+
+    private void Start()
     {
-        [SerializeField] private PlayerCameraTarget _target;
-        [SerializeField] private EyesLookToCamera _eyes;
-        [SerializeField] private HeadHider _head;
+        if (isLocalPlayer)
+            Sync();
+    }
 
-        private void Start()
-        {
-            if (isLocalPlayer)
-                Sync();
-        }
+    private void Sync()
+    {
+        GetComponent<CharacterController>().enabled = true;
+        GetComponent<Player>().enabled = true;
+        GetComponent<PlayerInput>().enabled = true;
 
-        private void Sync()
-        {
-            CharacterController CharacterController = GetComponent<CharacterController>();
-            CharacterController.enabled = true;
+        CinemachineVirtualCamera cinemachineVirtualCamera = FindCinemachine();
+        cinemachineVirtualCamera.Follow = _target.transform;
+        _head.Hide();
+    }
 
-            Player ThirdPersonController = GetComponent<Player>();
-            ThirdPersonController.enabled = true;
+    private CinemachineVirtualCamera FindCinemachine()
+    {
+        CinemachineVirtualCamera cinemachineVirtualCamera = FindFirstObjectByType<CinemachineVirtualCamera>();
 
-            PlayerInput PlayerInput = GetComponent<PlayerInput>();
-            PlayerInput.enabled = true;
+        if (cinemachineVirtualCamera == null)
+            throw new NullReferenceException($"Не удалось найти компонент {typeof(CinemachineVirtualCamera)} на сцене");
 
-            CinemachineVirtualCamera cinemachineVirtualCamera = FindFirstObjectByType<CinemachineVirtualCamera>();
-
-            if (cinemachineVirtualCamera == null)
-                throw new NullReferenceException($"Не удалось найти компонент {typeof(CinemachineVirtualCamera)} на сцене");
-
-            cinemachineVirtualCamera.Follow = _target.transform;
-
-            CameraIsHer CameraIsHer = cinemachineVirtualCamera.GetComponent<CameraIsHer>();
-
-            _eyes.Follow(CameraIsHer.Camera);
-
-            _head.Hide();
-        }
+        return cinemachineVirtualCamera;
     }
 }

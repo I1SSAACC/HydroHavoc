@@ -1,7 +1,7 @@
 using Mirror;
 using UnityEngine;
 
-public class Nameplate : NetworkBehaviour
+public class DisplayRotator : NetworkBehaviour
 {
     private Transform _target;
 
@@ -13,7 +13,9 @@ public class Nameplate : NetworkBehaviour
 
     private void RotateToCamera()
     {
-        if (isLocalPlayer == false)
+        if (isLocalPlayer)
+            gameObject.SetActive(false);
+        else
             transform.LookAt(_target);
     }
 }

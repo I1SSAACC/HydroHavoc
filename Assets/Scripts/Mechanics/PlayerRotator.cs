@@ -1,22 +1,18 @@
-﻿using StarterAssets;
-using System;
+﻿using System;
 using UnityEngine;
 
 public class PlayerRotator
 {
     private const float Threshold = 0.01f;
-    private const float RotationSpeed = 2f;
-
-    private readonly Vector2 _verticalRotationLimits = new(-90f, 90f);
 
     private readonly Transform _cameraTarget;
     private readonly Transform _transform;
-    private readonly StarterAssetsInputs _input;
+    private readonly InputInformer _input;
 
     private float _cinemachineTargetPitch;
     private float _rotationVelocity;
 
-    public PlayerRotator(StarterAssetsInputs input, Transform player)
+    public PlayerRotator(InputInformer input, Transform player)
     {
         if (input == null)
             throw new ArgumentNullException(nameof(input), "Аргументу не присвоено значение");
@@ -39,19 +35,11 @@ public class PlayerRotator
         if (lookInput.sqrMagnitude < Threshold)
             return;
 
-        _cinemachineTargetPitch += lookInput.y * RotationSpeed;
-        _rotationVelocity = lookInput.x * RotationSpeed;
+        _cinemachineTargetPitch += lookInput.y * PlayerParams.RotationSensitivity;
+        _rotationVelocity = lookInput.x * PlayerParams.RotationSensitivity;
 
-        _cinemachineTargetPitch = ClampAngle(_cinemachineTargetPitch, _verticalRotationLimits.x, _verticalRotationLimits.y);
+        _cinemachineTargetPitch = Utils.ClampAngle(_cinemachineTargetPitch, PlayerParams.VerticalRotationLimits.x, PlayerParams.VerticalRotationLimits.y);
         _cameraTarget.transform.localRotation = Quaternion.Euler(_cinemachineTargetPitch, 0.0f, 0.0f);
         _transform.Rotate(Vector3.up * _rotationVelocity);
-    }
-
-    private static float ClampAngle(float angle, float minValue, float maxValue)
-    {
-        if (angle < -360f) angle += 360f;
-        if (angle > 360f) angle -= 360f;
-
-        return Mathf.Clamp(angle, minValue, maxValue);
     }
 }
