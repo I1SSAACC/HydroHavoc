@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3045454176389616815}
   - component: {fileID: 9167855393947206069}
   - component: {fileID: 8874387519023497224}
-  - component: {fileID: 5970507196847658183}
+  - component: {fileID: 45230286026877695}
   m_Layer: 0
   m_Name: Palm_2
   m_TagString: Untagged
@@ -87,7 +87,7 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!136 &5970507196847658183
+--- !u!136 &45230286026877695
 CapsuleCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -106,7 +106,7 @@ CapsuleCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 23.018011
-  m_Height: 330.96194
+  m_Radius: 23.722776
+  m_Height: 353.4709
   m_Direction: 1
-  m_Center: {x: -599.6664, y: 146.96126, z: -0.5130212}
+  m_Center: {x: -600.61694, y: 152.0498, z: 0.53550404}

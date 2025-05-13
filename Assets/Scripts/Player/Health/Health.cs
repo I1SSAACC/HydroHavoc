@@ -56,4 +56,16 @@ public class Health : NetworkBehaviour
         _sliderHealth.UpdateHealth(newHealth, MaxValue);
         _view.UpdateValue(newHealth);
     }
+
+public override void OnSerialize(NetworkWriter writer, bool initialState)
+    {
+        base.OnSerialize(writer, initialState);
+        writer.WriteFloat(_health);
+    }
+
+    public override void OnDeserialize(NetworkReader reader, bool initialState)
+    {
+        base.OnDeserialize(reader, initialState);
+        _health = reader.ReadFloat();
+    }
 }

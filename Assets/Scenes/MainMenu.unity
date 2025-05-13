@@ -204,7 +204,7 @@ GameObject:
   m_Component:
   - component: {fileID: 645512348}
   m_Layer: 0
-  m_Name: --- UI
+  m_Name: ---UI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -271,10 +271,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56f67affc9399c4e8c5bd5bd5cf3b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  requiredPlayers: 1
-  playerPrefab: {fileID: 999801429910213915, guid: 0caed934e6d1f1641825a7fc25fb6521,
+  _requiredPlayers: 2
+  _playerPrefab: {fileID: 3579091942842707834, guid: 0caed934e6d1f1641825a7fc25fb6521,
     type: 3}
-  uiCanvas: {fileID: 645512347}
+  _uiCanvas: {fileID: 645512347}
 --- !u!1 &672226390
 GameObject:
   m_ObjectHideFlags: 0
@@ -422,7 +422,7 @@ GameObject:
   m_Component:
   - component: {fileID: 815429817}
   m_Layer: 0
-  m_Name: --- System
+  m_Name: ---System
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -806,7 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1499645658}
   m_Layer: 0
-  m_Name: --- Scene
+  m_Name: ---Scene
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9717,6 +9717,7 @@ GameObject:
   - component: {fileID: 4067983187498429742}
   - component: {fileID: 8140480500879565409}
   - component: {fileID: 6282985494650133796}
+  - component: {fileID: 8140480500879565410}
   m_Layer: 5
   m_Name: Nickname
   m_TagString: Untagged
@@ -17884,6 +17885,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6054250658928222664}
   m_CullTransparentMesh: 0
+--- !u!114 &8140480500879565410
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6054250658928222664}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 537da4b89000ccf4d8d19ca824d20509, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _text: {fileID: 6282985494650133796}
 --- !u!224 &8195135769154216020
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18064,6 +18078,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3447124274275870873}
+  - component: {fileID: 8928341523593793207}
   - component: {fileID: 8928341523593793205}
   - component: {fileID: 8928341523593793206}
   - component: {fileID: 8928341523593793203}
@@ -18130,13 +18145,14 @@ MonoBehaviour:
   exceptionsDisconnect: 1
   authenticator: {fileID: 0}
   offlineScene: 
-  onlineScene: Assets/Scenes/MainMenu.unity
+  onlineScene: 
   offlineSceneLoadDelay: 0
   playerPrefab: {fileID: 4165686883220766924, guid: cfa4cf308009fbe47b31f5dd3c22585c,
     type: 3}
   autoCreatePlayer: 1
   playerSpawnMethod: 0
-  spawnPrefabs: []
+  spawnPrefabs:
+  - {fileID: 999801429910213915, guid: 0caed934e6d1f1641825a7fc25fb6521, type: 3}
   snapshotSettings:
     bufferTimeMultiplier: 2
     bufferLimit: 32
@@ -18165,6 +18181,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offsetX: 0
   offsetY: 0
+--- !u!114 &8928341523593793207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8928341523593793201}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b979f26c95d34324ba005bfacfa9c4fc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!224 &8948682976429063143
 RectTransform:
   m_ObjectHideFlags: 0
