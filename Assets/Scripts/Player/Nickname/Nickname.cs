@@ -8,8 +8,12 @@ public class Nickname : NetworkBehaviour
     [SyncVar(hook = nameof(OnNameChanged))]
     public string Name;
 
-    public void SetName(string name) =>
-        Name = name;
+    [Command]
+    public void SetName(string name)
+    {
+        if (isLocalPlayer)
+            Name = name;
+    }
 
     private void OnNameChanged(string _, string newName) =>
         _nameView.UpdateName(newName, isLocalPlayer);

@@ -77,26 +77,34 @@ public class MatchManager : MonoBehaviour
         foreach (var conn in conns)
         {
             GameObject oldPlayer = conn.identity?.gameObject;
-
             GameObject newPlayer = Instantiate(playerPrefab);
             SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetSceneAt(SceneManager.loadedSceneCount - 1));
+            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
+
+            //NicknameStartAdder oldName = oldPlayer.GetComponent<NicknameStartAdder>();
+            //string nameToSet = oldName.GetName();
+            //Nickname newName = newPlayer.GetComponent<Nickname>();
+            //newName.SetName(nameToSet);
 
             if (oldPlayer != null)
                 NetworkServer.Destroy(oldPlayer);
-
-            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepAuthority);
-
-            //Nickname name = newPlayer.GetComponent<Nickname>();
-            //name.SetName(NicknameRandomizer.GetCreatedName());
         }
 
-        foreach (var conn in conns)
+        DisableUICanvasForAllPlayers();
+    }
+
+    private void DisableUICanvasForAllPlayers()
+    {
+        foreach (var conn in NetworkServer.connections)
         {
-            var playerObject = conn.identity?.gameObject;
-            if (playerObject != null && uiCanvas != null)
+            if (conn.Value.identity != null)
             {
-                uiCanvas.SetActive(false);
-                GameObject.Find("MainCamera").GetComponent<AudioListener>().enabled = false;
+                var playerObject = conn.Value.identity.gameObject;
+                if (playerObject != null)
+                {
+                    uiCanvas.SetActive(false);
+                    GameObject.Find("MainCamera").GetComponent<AudioListener>().enabled = false;
+                }
             }
         }
     }
