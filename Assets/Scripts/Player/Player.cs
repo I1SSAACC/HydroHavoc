@@ -8,6 +8,7 @@ public class Player : MonoBehaviour
     [SerializeField] private AudioClip _landingAudioClip;
     [SerializeField] private AudioClip[] _footstepAudioClips;
     [SerializeField][Range(0, 1)] private float _footstepAudioVolume = 0.5f;
+    [SerializeField] private LayerMask _groundLayer;
 
     private PlayerAnimator _animator;
     private PlayerMover _mover;
@@ -33,9 +34,9 @@ public class Player : MonoBehaviour
     private void Update()
     {
         Move();
-        _animator.SetGrounded(_controller.isGrounded);
-
-        if (_controller.isGrounded)
+        bool isGrounded = IsGrounded();
+        _animator.SetGrounded(isGrounded);
+        if (isGrounded)
         {
             _animator.DisableJump();
             _animator.DisableFreeFall();
@@ -68,7 +69,7 @@ public class Player : MonoBehaviour
 
     private void OnJumpPressed()
     {
-        if (_controller.isGrounded == false)
+        if (!IsGrounded())
             return;
 
         _jumper.Jump();
@@ -91,7 +92,7 @@ public class Player : MonoBehaviour
     {
         Vector2 input = _input.Move;
 
-        if (_croucher.IsCrouch && _controller.isGrounded)
+        if (_croucher.IsCrouch && IsGrounded())
             input *= PlayerParams.CrouchingStepMultiplierSpeed;
         else if (_input.IsWalking)
             input *= PlayerParams.SlowingStepMultiplierSpeed;
@@ -113,4 +114,7 @@ public class Player : MonoBehaviour
         if (animationEvent.animatorClipInfo.weight > 0.5f)
             AudioSource.PlayClipAtPoint(_landingAudioClip, transform.TransformPoint(_controller.transform.position), _footstepAudioVolume);
     }
+
+    private bool IsGrounded() =>
+        Physics.Raycast(transform.position, Vector3.down, PlayerParams.GroundCheckDistance, _groundLayer) || _controller.isGrounded;
 }

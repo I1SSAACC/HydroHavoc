@@ -650,7 +650,7 @@ GameObject:
   - component: {fileID: 6459467812016148372}
   - component: {fileID: 5685136625582241432}
   - component: {fileID: 6707701800049024943}
-  m_Layer: 8
+  m_Layer: 0
   m_Name: Player
   m_TagString: Player
   m_Icon: {fileID: 0}
@@ -926,6 +926,10 @@ MonoBehaviour:
   _footstepAudioClips:
   - {fileID: 8300000, guid: ccf7de35293e248b6a37333d49a4e3f6, type: 3}
   _footstepAudioVolume: 0.5
+  _groundCheckDistance: 0.1
+  _groundLayer:
+    serializedVersion: 2
+    m_Bits: 1
 --- !u!114 &6459467812016148372
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1087,7 +1091,7 @@ GameObject:
   m_Component:
   - component: {fileID: 8965085978000147777}
   - component: {fileID: 8306422524445107594}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: Display
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -2581,7 +2585,7 @@ GameObject:
   - component: {fileID: 4748323559803900604}
   - component: {fileID: 8049180217362504500}
   - component: {fileID: 1011415641976228197}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: HealthView
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4295,7 +4299,7 @@ GameObject:
   - component: {fileID: 6574794879788224630}
   - component: {fileID: 8567669680295687241}
   - component: {fileID: 8005129688956376254}
-  m_Layer: 6
+  m_Layer: 0
   m_Name: NameView
   m_TagString: Untagged
   m_Icon: {fileID: 0}

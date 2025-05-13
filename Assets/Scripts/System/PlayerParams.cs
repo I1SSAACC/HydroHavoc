@@ -12,4 +12,5 @@ public static class PlayerParams
     public static float SmoothTimeAnimationMovement = 0.15f;
     public static float RotationSensitivity = 2f;
     public static Vector2 VerticalRotationLimits = new (-90f, 90f);
+    public const float GroundCheckDistance = 0.1f;
 }

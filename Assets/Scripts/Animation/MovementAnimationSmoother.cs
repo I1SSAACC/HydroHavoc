@@ -7,11 +7,13 @@ public class MovementAnimationSmoother
 
     public Vector2 CalculateMovementSmoothedValue(Vector2 targetValue)
     {
-        return Vector2.SmoothDamp(
+        _currentValue = Vector2.SmoothDamp(
             current: _currentValue,
             target: targetValue,
             currentVelocity: ref _currentVelocity,
             smoothTime: PlayerParams.SmoothTimeAnimationMovement
         );
+
+        return _currentValue;
     }
 }
