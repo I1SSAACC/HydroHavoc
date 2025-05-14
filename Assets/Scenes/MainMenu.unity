@@ -237,6 +237,7 @@ GameObject:
   m_Component:
   - component: {fileID: 664634454}
   - component: {fileID: 664634455}
+  - component: {fileID: 664634456}
   m_Layer: 0
   m_Name: MatchManager
   m_TagString: Untagged
@@ -271,10 +272,33 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b56f67affc9399c4e8c5bd5bd5cf3b7b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMethod: 0
+  syncDirection: 0
+  syncMode: 0
+  syncInterval: 0
   _requiredPlayers: 2
   _playerPrefab: {fileID: 3579091942842707834, guid: 0caed934e6d1f1641825a7fc25fb6521,
     type: 3}
   _uiCanvas: {fileID: 645512347}
+  _addToQueue: {fileID: 7030101483547588676}
+  _removeFromQueue: {fileID: 1533207724}
+--- !u!114 &664634456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 664634453}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 714458760
+  _assetId: 0
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!1 &672226390
 GameObject:
   m_ObjectHideFlags: 0
@@ -915,8 +939,9 @@ GameObject:
   - component: {fileID: 1533207723}
   - component: {fileID: 1533207722}
   - component: {fileID: 1533207721}
+  - component: {fileID: 1533207724}
   m_Layer: 5
-  m_Name: Button_StopSearch
+  m_Name: RemoveFromQueue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -987,43 +1012,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1533207722}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7030101483547588668}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 1533207719}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 664634455}
-        m_TargetAssemblyTypeName: MatchManager, Assembly-CSharp
-        m_MethodName: LeaveMatchmaking
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &1533207722
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1062,6 +1051,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1533207719}
   m_CullTransparentMesh: 0
+--- !u!114 &1533207724
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1533207719}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827f9ae07fc77d049961939ddb2a6f4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showButton: {fileID: 7030101483547588672}
 --- !u!1 &1539989110
 GameObject:
   m_ObjectHideFlags: 0
@@ -14293,8 +14295,9 @@ GameObject:
   - component: {fileID: 7030101483547588675}
   - component: {fileID: 7030101483547588674}
   - component: {fileID: 7030101483547588672}
+  - component: {fileID: 7030101483547588676}
   m_Layer: 5
-  m_Name: Button_Play
+  m_Name: AddToQueue
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -14365,43 +14368,7 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 7030101483547588674}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7030101483547588668}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 1533207719}
-        m_TargetAssemblyTypeName: UnityEngine.GameObject, UnityEngine
-        m_MethodName: SetActive
-        m_Mode: 6
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
-      - m_Target: {fileID: 664634455}
-        m_TargetAssemblyTypeName: MatchManager, Assembly-CSharp
-        m_MethodName: JoinMatchmaking
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 1
-        m_CallState: 2
+      m_Calls: []
 --- !u!114 &7030101483547588674
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -14440,6 +14407,19 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7030101483547588668}
   m_CullTransparentMesh: 0
+--- !u!114 &7030101483547588676
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7030101483547588668}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 827f9ae07fc77d049961939ddb2a6f4f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _showButton: {fileID: 1533207721}
 --- !u!1 &7030101483570901377
 GameObject:
   m_ObjectHideFlags: 0

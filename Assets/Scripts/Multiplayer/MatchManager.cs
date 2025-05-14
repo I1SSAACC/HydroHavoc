@@ -1,55 +1,85 @@
 using Mirror;
-using UnityEngine;
-using System.Collections.Generic;
 using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public struct MatchmakingMessage : NetworkMessage { }
 
 public struct LeaveMatchmakingMessage : NetworkMessage { }
 
-public struct PlayerInfo
-{
-    public NetworkConnectionToClient connection;
-}
-
-public class MatchManager : MonoBehaviour
+public class MatchManager : NetworkBehaviour
 {
     [SerializeField] private int _requiredPlayers;
     [SerializeField] private GameObject _playerPrefab;
     [SerializeField] private GameObject _uiCanvas;
+    [SerializeField] private ButtonClickInformer _addToQueue;
+    [SerializeField] private ButtonClickInformer _removeFromQueue;
 
-    private readonly List<PlayerInfo> _playersInQueue = new();
+    private readonly List<NetworkConnectionToClient> _playersInQueue = new();
 
-    private void Start()
+    private void OnEnable()
     {
-        CustomNetworkManager netMan = NetworkManager.singleton as CustomNetworkManager;
-        netMan.ServerStarted += OnStartServer;
-        netMan.ServerStopped += OnStopServer;
+        _addToQueue.Clicked += AddPlayerToQueue;
+        _removeFromQueue.Clicked += RemovePlayerFromQueue;
     }
 
-    public void JoinMatchmaking() =>
-        NetworkClient.Send(new MatchmakingMessage());
-
-    public void LeaveMatchmaking() =>
-        NetworkClient.Send(new LeaveMatchmakingMessage());
-
-    private void OnStartServer()
+    private void OnDisable()
     {
+        _addToQueue.Clicked -= AddPlayerToQueue;
+        _removeFromQueue.Clicked -= RemovePlayerFromQueue;
+    }
+
+    public override void OnStartServer()
+    {
+        Debug.LogWarning("Сервер запущен");
+
         NetworkServer.RegisterHandler<MatchmakingMessage>(OnMatchmakingMessageReceived);
         NetworkServer.RegisterHandler<LeaveMatchmakingMessage>(OnLeaveMatchmakingMessageReceived);
     }
 
-    private void OnStopServer()
+    public override void OnStopServer()
     {
+        Debug.LogWarning("Сервер остановлен");
+
         NetworkServer.UnregisterHandler<MatchmakingMessage>();
         NetworkServer.UnregisterHandler<LeaveMatchmakingMessage>();
     }
 
+    public override void OnStartClient()
+    {
+        Debug.LogWarning("Клиент присоединился");
+    }
+
+    public override void OnStopClient()
+    {
+        Debug.LogWarning("Клиент откючился");
+    }
+
+    public override void OnStartLocalPlayer()
+    {
+        Debug.LogWarning("OnStartLocalPlayer()");
+    }
+
+    public override void OnStartAuthority()
+    {
+        Debug.LogWarning("OnStartAuthority()");
+    }
+
+    public override void OnStopAuthority()
+    {
+        Debug.LogWarning("OnStopAuthority()");
+    }
+
+    private void AddPlayerToQueue() =>
+        NetworkClient.Send(new MatchmakingMessage());
+
+    private void RemovePlayerFromQueue() =>
+        NetworkClient.Send(new LeaveMatchmakingMessage());
+
     private void OnMatchmakingMessageReceived(NetworkConnectionToClient conn, MatchmakingMessage _)
     {
-        PlayerInfo playerInfo = new() { connection = conn };
-        _playersInQueue.Add(playerInfo);
+        _playersInQueue.Add(conn);
 
         if (_playersInQueue.Count >= _requiredPlayers)
             StartMatch();
@@ -57,63 +87,56 @@ public class MatchManager : MonoBehaviour
 
     private void OnLeaveMatchmakingMessageReceived(NetworkConnectionToClient conn, LeaveMatchmakingMessage _)
     {
-        PlayerInfo playerToRemove = _playersInQueue.Find(p => p.connection == conn);
-        if (playerToRemove.connection != null)
-        {
-            _playersInQueue.Remove(playerToRemove);
-        }
+        if (conn != null)
+            _playersInQueue.Remove(conn);
     }
 
     private void StartMatch()
     {
         NetworkConnectionToClient[] connections = new NetworkConnectionToClient[_playersInQueue.Count];
+
         for (int i = 0; i < _playersInQueue.Count; i++)
-        {
-            connections[i] = _playersInQueue[i].connection;
-        }
+            connections[i] = _playersInQueue[i];
 
         _playersInQueue.Clear();
+
         StartCoroutine(CreateMatch(connections));
     }
 
     private IEnumerator CreateMatch(NetworkConnectionToClient[] conns)
     {
-        yield return SceneManager.LoadSceneAsync("Playground", new LoadSceneParameters(LoadSceneMode.Additive));
+        yield return SceneManager.LoadSceneAsync(Constants.Scenes.Playground, new LoadSceneParameters(LoadSceneMode.Additive));
 
-        foreach (var conn in conns)
+        foreach (NetworkConnectionToClient conn in conns)
         {
-            GameObject oldPlayer = conn.identity != null ? conn.identity.gameObject : null;
+            GameObject oldPlayer = conn.identity.gameObject;
 
             GameObject newPlayer = Instantiate(_playerPrefab);
             SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetSceneAt(SceneManager.loadedSceneCount - 1));
 
             NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepActive);
+            //NetworkServer.Spawn(newPlayer, conn);
+            //NetworkIdentity netId = newPlayer.GetComponent<NetworkIdentity>();            
+            //netId.AssignClientAuthority(conn);
 
-            if (oldPlayer != null)
+            if (oldPlayer == null)
+                continue;
+
+            NicknameStartAdder oldName = oldPlayer.GetComponent<NicknameStartAdder>();
+
+            if (oldName)
             {
-                NicknameStartAdder oldName = oldPlayer.GetComponent<NicknameStartAdder>();
-                if (oldName != null)
-                {
-                    string nameToSet = oldName.GetName();
-                    Nickname newName = newPlayer.GetComponent<Nickname>();
-                    newName.SetName(nameToSet);
-                }
-
-                UIDisabler uiDisable = oldPlayer.GetComponent<UIDisabler>();
-                if (uiDisable != null)
-                {
-                    uiDisable.UIDisable();
-                }
+                string nameToSet = oldName.GetName();
+                Nickname newName = newPlayer.GetComponent<Nickname>();
+                newName.SetName(nameToSet);
             }
+
+            UIDisabler uiDisable = oldPlayer.GetComponent<UIDisabler>();
+
+            if (uiDisable)
+                uiDisable.UIDisable();
         }
     }
 
-    private void OnDestroy()
-    {
-        CustomNetworkManager netMan = NetworkManager.singleton as CustomNetworkManager;
-        if (netMan == null) return;
 
-        netMan.ServerStarted -= OnStartServer;
-        netMan.ServerStopped -= OnStopServer;
-    }
 }

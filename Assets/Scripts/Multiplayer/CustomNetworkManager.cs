@@ -1,5 +1,6 @@
 using Mirror;
 using System;
+using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
 {
@@ -8,11 +9,47 @@ public class CustomNetworkManager : NetworkManager
     public event Action ClientStarted;
     public event Action ClientStopped;
 
-    public override void OnStartServer() => ServerStarted?.Invoke();
+    private static CustomNetworkManager _instance;
 
-    public override void OnStartClient() => ClientStarted?.Invoke();
+    public static CustomNetworkManager Instance
+    {
+        get
+        {
+            if (_instance == null)
+                Debug.LogWarning("Создали синглтон");
 
-    public override void OnStopServer() => ServerStopped?.Invoke();
+            return _instance;
+        }
+    }
 
-    public override void OnStopClient() => ClientStopped?.Invoke();
+    public override void Awake()
+    {
+        base.Awake();
+
+        if (_instance != null && _instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+
+        _instance = this;
+        DontDestroyOnLoad(gameObject);
+    }
+
+    public override void OnClientDisconnect()
+    {
+        Debug.LogWarning("Клиент откючился");
+    }
+
+    public override void OnStartClient()
+    {
+        Debug.LogWarning("Старт клиента");
+        ClientStarted?.Invoke();
+    }
+
+    public override void OnStopClient()
+    {
+        Debug.LogWarning("OnStopClient()");
+        ClientStopped?.Invoke();
+    }
 }
