@@ -1,22 +1,24 @@
 using Mirror;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public struct MatchmakingMessage : NetworkMessage { }
+public struct AddPlayerMessage : NetworkMessage { }
 
-public struct LeaveMatchmakingMessage : NetworkMessage { }
+public struct RemovePlayerMessage : NetworkMessage { }
 
 public class MatchManager : NetworkBehaviour
 {
-    [SerializeField] private int _requiredPlayers;
     [SerializeField] private GameObject _playerPrefab;
-    [SerializeField] private GameObject _uiCanvas;
     [SerializeField] private ButtonClickInformer _addToQueue;
     [SerializeField] private ButtonClickInformer _removeFromQueue;
+    [SerializeField] private LoadSceneMode _sceneMode;
+    [SerializeField] private int _requiredPlayers;
 
     private readonly List<NetworkConnectionToClient> _playersInQueue = new();
+    private List<Scene> _loadedScenes = new();
 
     private void OnEnable()
     {
@@ -34,16 +36,16 @@ public class MatchManager : NetworkBehaviour
     {
         Debug.LogWarning("Сервер запущен");
 
-        NetworkServer.RegisterHandler<MatchmakingMessage>(OnMatchmakingMessageReceived);
-        NetworkServer.RegisterHandler<LeaveMatchmakingMessage>(OnLeaveMatchmakingMessageReceived);
+        NetworkServer.RegisterHandler<AddPlayerMessage>(OnAddedPlayer);
+        NetworkServer.RegisterHandler<RemovePlayerMessage>(OnRemovedPlayer);
     }
 
     public override void OnStopServer()
     {
         Debug.LogWarning("Сервер остановлен");
 
-        NetworkServer.UnregisterHandler<MatchmakingMessage>();
-        NetworkServer.UnregisterHandler<LeaveMatchmakingMessage>();
+        NetworkServer.UnregisterHandler<AddPlayerMessage>();
+        NetworkServer.UnregisterHandler<RemovePlayerMessage>();
     }
 
     public override void OnStartClient()
@@ -53,7 +55,7 @@ public class MatchManager : NetworkBehaviour
 
     public override void OnStopClient()
     {
-        Debug.LogWarning("Клиент откючился");
+        Debug.LogWarning("Остановка клиента");
     }
 
     public override void OnStartLocalPlayer()
@@ -72,12 +74,12 @@ public class MatchManager : NetworkBehaviour
     }
 
     private void AddPlayerToQueue() =>
-        NetworkClient.Send(new MatchmakingMessage());
+        NetworkClient.Send(new AddPlayerMessage());
 
     private void RemovePlayerFromQueue() =>
-        NetworkClient.Send(new LeaveMatchmakingMessage());
+        NetworkClient.Send(new RemovePlayerMessage());
 
-    private void OnMatchmakingMessageReceived(NetworkConnectionToClient conn, MatchmakingMessage _)
+    private void OnAddedPlayer(NetworkConnectionToClient conn, AddPlayerMessage _)
     {
         _playersInQueue.Add(conn);
 
@@ -85,58 +87,52 @@ public class MatchManager : NetworkBehaviour
             StartMatch();
     }
 
-    private void OnLeaveMatchmakingMessageReceived(NetworkConnectionToClient conn, LeaveMatchmakingMessage _)
+    private void OnRemovedPlayer(NetworkConnectionToClient connection, RemovePlayerMessage _)
     {
-        if (conn != null)
-            _playersInQueue.Remove(conn);
+        if (connection != null)
+            _playersInQueue.Remove(connection);
     }
 
     private void StartMatch()
     {
-        NetworkConnectionToClient[] connections = new NetworkConnectionToClient[_playersInQueue.Count];
-
-        for (int i = 0; i < _playersInQueue.Count; i++)
-            connections[i] = _playersInQueue[i];
-
+        Debug.Log($"_playersInQueue.Count = {_playersInQueue.Count}");
+        StartCoroutine(CreateMatch(new(_playersInQueue)));
         _playersInQueue.Clear();
-
-        StartCoroutine(CreateMatch(connections));
     }
 
-    private IEnumerator CreateMatch(NetworkConnectionToClient[] conns)
+    private IEnumerator CreateMatch(List<NetworkConnectionToClient> connections)
     {
-        yield return SceneManager.LoadSceneAsync(Constants.Scenes.Playground, new LoadSceneParameters(LoadSceneMode.Additive));
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(Constants.Scenes.Playground, LoadSceneMode.Additive);
 
-        foreach (NetworkConnectionToClient conn in conns)
+        yield return asyncLoad;
+
+        Scene loadedScene = SceneManager.GetSceneByName(Constants.Scenes.Playground);
+        if (loadedScene.isLoaded)
         {
-            GameObject oldPlayer = conn.identity.gameObject;
-
-            GameObject newPlayer = Instantiate(_playerPrefab);
-            SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetSceneAt(SceneManager.loadedSceneCount - 1));
-
-            NetworkServer.ReplacePlayerForConnection(conn, newPlayer, ReplacePlayerOptions.KeepActive);
-            //NetworkServer.Spawn(newPlayer, conn);
-            //NetworkIdentity netId = newPlayer.GetComponent<NetworkIdentity>();            
-            //netId.AssignClientAuthority(conn);
-
-            if (oldPlayer == null)
-                continue;
-
-            NicknameStartAdder oldName = oldPlayer.GetComponent<NicknameStartAdder>();
-
-            if (oldName)
-            {
-                string nameToSet = oldName.GetName();
-                Nickname newName = newPlayer.GetComponent<Nickname>();
-                newName.SetName(nameToSet);
-            }
-
-            UIDisabler uiDisable = oldPlayer.GetComponent<UIDisabler>();
-
-            if (uiDisable)
-                uiDisable.UIDisable();
+            _loadedScenes.Add(loadedScene);
+            SceneManager.SetActiveScene(loadedScene);
         }
+
+        foreach (NetworkConnectionToClient connection in connections)
+            MovePlayersInScene(connection);
     }
 
+    private void MovePlayersInScene(NetworkConnectionToClient connection)
+    {
+        GameObject oldPlayer = connection.identity.gameObject;
+        UIDisabler uiDisable = oldPlayer.GetComponent<UIDisabler>();
 
+        if (uiDisable != null)
+            uiDisable.UIDisable();
+
+        GameObject newPlayer = Instantiate(_playerPrefab);
+
+        NetworkServer.ReplacePlayerForConnection(connection, newPlayer, ReplacePlayerOptions.KeepAuthority);
+        SceneManager.MoveGameObjectToScene(newPlayer, SceneManager.GetActiveScene());
+
+        //NicknameStartAdder oldName = oldPlayer.GetComponent<NicknameStartAdder>();
+        //string nameToSet = oldName.GetName();
+        //Nickname newName = newPlayer.GetComponent<Nickname>();
+        //newName.SetName(nameToSet);
+    }
 }

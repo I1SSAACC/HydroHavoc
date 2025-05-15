@@ -293,12 +293,12 @@ MonoBehaviour:
   syncDirection: 0
   syncMode: 0
   syncInterval: 0
-  _requiredPlayers: 1
   _playerPrefab: {fileID: 5701793886644701206, guid: 0caed934e6d1f1641825a7fc25fb6521,
     type: 3}
-  _uiCanvas: {fileID: 645512347}
   _addToQueue: {fileID: 7030101483547588676}
   _removeFromQueue: {fileID: 1533207724}
+  _sceneMode: 1
+  _requiredPlayers: 2
 --- !u!1 &672226390
 GameObject:
   m_ObjectHideFlags: 0

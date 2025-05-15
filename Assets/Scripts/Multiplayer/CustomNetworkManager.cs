@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class CustomNetworkManager : NetworkManager
 {
-    public event Action ServerStarted;
-    public event Action ServerStopped;
     public event Action ClientStarted;
     public event Action ClientStopped;
 
@@ -49,7 +47,7 @@ public class CustomNetworkManager : NetworkManager
 
     public override void OnStopClient()
     {
-        Debug.LogWarning("OnStopClient()");
+        Debug.LogWarning("Остановка клиента");
         ClientStopped?.Invoke();
     }
 }

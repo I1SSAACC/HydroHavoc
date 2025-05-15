@@ -2823,10 +2823,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1426622109485840967}
-  - component: {fileID: 5281833370424726896}
   - component: {fileID: 4489802469193986818}
   - component: {fileID: 7503616989487540292}
   - component: {fileID: 3253496543064783323}
+  - component: {fileID: 5210362497115236142}
   - component: {fileID: 5049336517133400001}
   - component: {fileID: 6337826600920303666}
   - component: {fileID: 820824058593956723}
@@ -2859,23 +2859,6 @@ Transform:
   - {fileID: 9152562890102598287}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &5281833370424726896
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5701793886644701206}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sceneId: 0
-  _assetId: 537453016
-  serverOnly: 0
-  visibility: 0
-  hasSpawned: 0
 --- !u!114 &4489802469193986818
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3023,6 +3006,23 @@ CapsuleCollider:
   m_Height: 1.6690059
   m_Direction: 1
   m_Center: {x: 0.00035762787, y: 0.8303033, z: 0}
+--- !u!114 &5210362497115236142
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5701793886644701206}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9b91ecbcc199f4492b9a91e820070131, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sceneId: 0
+  _assetId: 537453016
+  serverOnly: 0
+  visibility: 0
+  hasSpawned: 0
 --- !u!114 &5049336517133400001
 MonoBehaviour:
   m_ObjectHideFlags: 0
