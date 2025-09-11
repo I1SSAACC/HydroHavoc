@@ -297,7 +297,7 @@ MonoBehaviour:
     type: 3}
   _addToQueue: {fileID: 7030101483547588676}
   _removeFromQueue: {fileID: 1533207724}
-  _sceneMode: 1
+  _sceneMode: 0
   _requiredPlayers: 2
 --- !u!1 &672226390
 GameObject:

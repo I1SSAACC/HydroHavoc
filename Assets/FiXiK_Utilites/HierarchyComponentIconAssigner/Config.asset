@@ -1,0 +1,32 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f22cf9f4ca28eea46ae763c1feebc0ee, type: 3}
+  m_Name: Config
+  m_EditorClassIdentifier: 
+  _enabled: 1
+  _componentIconList:
+  - _icon: {fileID: 2800000, guid: ceb2a24a26e15ff41a654cca78b2ef47, type: 3}
+    _typeName: Mirror.NetworkManager, Mirror, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - _icon: {fileID: 2800000, guid: a6c8f1687b3c3974a8ff7f27d341e499, type: 3}
+    _typeName: Player, Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null
+  - _icon: {fileID: 2800000, guid: 0f7d91f180e9fce49bc747292c2a776e, type: 3}
+    _typeName: Mirror.NetworkIdentity, Mirror, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - _icon: {fileID: 2800000, guid: ef57c7dc9aa019446b66860ebd1c05a4, type: 3}
+    _typeName: UnityEngine.Camera, UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - _icon: {fileID: 2800000, guid: 0553b1d77ac3aed4aa171289f8489c0c, type: 3}
+    _typeName: UnityEngine.Canvas, UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
+  - _icon: {fileID: 2800000, guid: ce2fc5d5488577340b963ee019249184, type: 3}
+    _typeName: TMPro.TextMeshProUGUI, Unity.TextMeshPro, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
